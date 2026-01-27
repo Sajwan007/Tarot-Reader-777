@@ -1,53 +1,140 @@
-# Reader777 - Mystical Tarot Reading Platform
+# Tarot Reader 777 - Booking Management System
 
-A modern, responsive tarot reading platform with UPI payment integration and Supabase database.
+A complete full-stack booking management system for tarot reading services using Supabase database.
 
-## 🏗️ Project Structure
+## 🌟 Features
 
-```
-Reader777/
-├── frontend/                 # React frontend application
-│   ├── src/
-│   │   ├── components/       # Reusable UI components
-│   │   ├── pages/          # Page components
-│   │   ├── utils/          # Utility functions
-│   │   └── hooks/          # Custom React hooks
-│   ├── public/             # Static assets
-│   ├── package.json         # Frontend dependencies
-│   └── vercel.json        # Vercel deployment config
-├── backend/                 # Express.js backend API
-│   ├── api/               # API route handlers
-│   ├── server.js           # Main server file
-│   ├── package.json        # Backend dependencies
-│   └── vercel.json        # Backend deployment config
-├── .env                   # Environment variables
-├── supabase-schema.sql     # Database schema
-└── README.md             # This file
-```
+- ✨ Admin dashboard with stats and analytics
+- 📅 Interactive calendar view
+- 👥 Client management
+- ✉️ Email notifications
+- 🔐 Secure authentication
+- 📊 Booking status tracking
+- 💰 Revenue tracking
+- 📱 Responsive design
+- 🗄️ Supabase database integration
 
-## 🚀 Quick Start
+## 🛠️ Tech Stack
+
+### Backend
+- Node.js + Express
+- Supabase (PostgreSQL)
+- JWT Authentication
+- Nodemailer
+- Bcrypt
+
+### Frontend
+- React 18
+- Tailwind CSS
+- Axios
+- React Router
+- Lucide Icons
+
+### Database
+- Supabase (PostgreSQL)
+- Real-time subscriptions
+- Row Level Security (RLS)
+
+## 📦 Installation
 
 ### Prerequisites
 - Node.js 18+
+- Supabase account
 - npm or yarn
-- Supabase account (for database)
-- SendGrid account (for emails)
 
-### Installation
+### 1. Set up Supabase
 
-1. **Clone and install frontend:**
-   ```bash
-   cd frontend
-   npm install
-   ```
+1. Go to [supabase.com](https://supabase.com)
+2. Create a new project
+3. Run the SQL schema from `supabase-schema.sql`
+4. Get your Project URL and anon key from Settings > API
 
-2. **Install backend:**
-   ```bash
-   cd backend
-   npm install
-   ```
+### 2. Backend Setup
 
-3. **Set up environment variables:**
+```bash
+cd backend
+npm install
+cp .env.example .env
+# Update .env with your Supabase credentials
+npm run dev
+```
+
+### 3. Frontend Setup
+
+```bash
+cd frontend
+npm install
+cp .env.example .env
+# Update .env with your Supabase credentials
+npm run dev
+```
+
+## 🔐 Environment Variables
+
+### Backend (.env)
+```env
+# Supabase Database
+SUPABASE_URL=https://your-project-id.supabase.co
+SUPABASE_ANON_KEY=your_supabase_anon_key
+
+# JWT Secret
+JWT_SECRET=your_super_secret_jwt_key
+
+# Email Service
+EMAIL_HOST=smtp.gmail.com
+EMAIL_USER=your-email@gmail.com
+EMAIL_PASS=your-app-password
+EMAIL_FROM=noreply@yourdomain.com
+```
+
+### Frontend (.env)
+```env
+VITE_API_URL=http://localhost:5000/api
+VITE_SUPABASE_URL=https://your-project-id.supabase.co
+VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
+```
+
+## 🔐 Default Credentials
+
+- Email: admin@tarot777.com
+- Password: admin123
+
+## 📚 API Endpoints
+
+### Authentication
+- POST `/api/auth/register`
+- POST `/api/auth/login`
+- GET `/api/auth/me`
+
+### Bookings
+- GET `/api/bookings`
+- POST `/api/bookings`
+- PUT `/api/bookings/:id`
+- DELETE `/api/bookings/:id`
+- GET `/api/bookings/stats`
+
+### Clients
+- GET `/api/clients`
+- GET `/api/clients/:id`
+- PUT `/api/clients/:id`
+- DELETE `/api/clients/:id`
+
+## 🗄️ Database Schema
+
+The system uses three main tables:
+- `bookings` - Store all booking information
+- `clients` - Store client information
+- `admins` - Store admin user accounts
+
+See `supabase-schema.sql` for the complete schema.
+
+## 📄 License
+
+MIT
+
+## 👨‍💻 Author
+
+Sajwan007
    ```bash
    cp .env.example .env
    # Edit .env with your actual credentials

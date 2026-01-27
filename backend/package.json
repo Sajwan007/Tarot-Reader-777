@@ -1,24 +1,27 @@
 {
-  "name": "reader777-backend",
+  "name": "tarot-reader-backend",
   "version": "1.0.0",
-  "description": "Backend API for Reader777 Tarot application",
+  "description": "Backend for Tarot Reader 777 booking system",
   "main": "server.js",
-  "type": "module",
   "scripts": {
     "start": "node server.js",
-    "dev": "node --watch server.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "nodemon server.js",
+    "test": "jest"
   },
   "dependencies": {
-    "cors": "^2.8.5",
     "express": "^4.18.2",
-    "@sendgrid/mail": "^8.1.6",
-    "@supabase/supabase-js": "^2.91.0"
+    "@supabase/supabase-js": "^2.39.0",
+    "bcryptjs": "^2.4.3",
+    "jsonwebtoken": "^9.0.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "nodemailer": "^6.9.7",
+    "express-validator": "^7.0.1",
+    "helmet": "^7.1.0",
+    "morgan": "^1.10.0"
   },
   "devDependencies": {
-    "@types/node": "^20.11.18"
-  },
-  "keywords": ["api", "backend", "upi", "payments", "tarot"],
-  "author": "",
-  "license": "ISC"
+    "nodemon": "^3.0.1",
+    "jest": "^29.7.0"
+  }
 }
