@@ -58,11 +58,8 @@ We'll deploy:
    SUPABASE_URL=https://your-project-id.supabase.co
    SUPABASE_ANON_KEY=your_supabase_anon_key
    JWT_SECRET=your_super_secret_jwt_key_change_this_in_production
-   EMAIL_HOST=smtp.gmail.com
-   EMAIL_PORT=587
-   EMAIL_USER=your-email@gmail.com
-   EMAIL_PASS=your-app-password
-   EMAIL_FROM=noreply@yourdomain.com
+   SENDGRID_API_KEY=your_sendgrid_api_key
+   EMAIL_FROM=noreply@tarot777.com
    FRONTEND_URL=https://your-frontend-domain.vercel.app
    ```
 
@@ -190,11 +187,8 @@ curl -X POST https://your-backend-url.vercel.app/api/auth/register \
 SUPABASE_URL=https://your-project-id.supabase.co
 SUPABASE_ANON_KEY=your_supabase_anon_key
 JWT_SECRET=your_super_secret_jwt_key_change_this_in_production
-EMAIL_HOST=smtp.gmail.com
-EMAIL_PORT=587
-EMAIL_USER=your-email@gmail.com
-EMAIL_PASS=your-app-password
-EMAIL_FROM=noreply@yourdomain.com
+SENDGRID_API_KEY=your_sendgrid_api_key
+EMAIL_FROM=noreply@tarot777.com
 FRONTEND_URL=https://your-frontend-domain.vercel.app
 ```
 
