@@ -4,17 +4,11 @@ const helmet = require('helmet');
 const morgan = require('morgan');
 require('dotenv').config();
 
-const app = express();
-
-// Middleware
-app.use(helmet());
-app.use(cors({
-  origin: true, // Allow all origins for now
-  credentials: true
-}));
-app.use(morgan('dev'));
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+const express = require('express');
+const cors = require('cors');
+const helmet = require('helmet');
+const morgan = require('morgan');
+require('dotenv').config();
 
 // Health Check - Move this before routes
 app.get('/api/health', (req, res) => {

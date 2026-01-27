@@ -5,7 +5,9 @@ const supabaseKey = process.env.SUPABASE_ANON_KEY;
 
 if (!supabaseUrl || !supabaseKey) {
   console.error('Missing Supabase credentials. Please check your environment variables.');
-  process.exit(1);
+  // Don't exit, just create a dummy client for health check
+  module.exports = null;
+  return;
 }
 
 const supabase = createClient(supabaseUrl, supabaseKey);
