@@ -1,0 +1,25 @@
+{
+  "name": "tarot-reader-777-api",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "echo 'Build complete' > dist/build.txt"
+  },
+  "dependencies": {
+    "@sendgrid/mail": "^7.7.0",
+    "@supabase/supabase-js": "^2.39.0",
+    "@vercel/node": "^3.0.0",
+    "bcryptjs": "^2.4.3",
+    "date-fns": "^2.30.0",
+    "dotenv": "^17.2.3",
+    "jsonwebtoken": "^9.0.2",
+    "qrcode": "^1.5.3"
+  },
+  "devDependencies": {
+    "@types/bcryptjs": "^2.4.6",
+    "@types/jsonwebtoken": "^9.0.5",
+    "@types/node": "^20.11.18",
+    "@types/qrcode": "^1.5.5"
+  }
+}

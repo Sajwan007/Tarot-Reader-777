@@ -1,0 +1,30 @@
+{
+  "version": 2,
+  "functions": {
+    "api/**/*.ts": {
+      "maxDuration": 30
+    }
+  },
+  "routes": [
+    {
+      "src": "/api/(.*)",
+      "dest": "/api/$1"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/frontend/$1"
+    }
+  ],
+  "env": {
+    "VITE_SUPABASE_URL": "@supabase-url",
+    "VITE_SUPABASE_ANON_KEY": "@supabase-anon-key",
+    "SUPABASE_SERVICE_ROLE_KEY": "@supabase-service-role-key",
+    "SENDGRID_API_KEY": "@sendgrid-api-key",
+    "SENDGRID_FROM_EMAIL": "@sendgrid-from-email",
+    "SENDGRID_FROM_NAME": "@sendgrid-from-name",
+    "JWT_SECRET": "@jwt-secret",
+    "PAYMENT_UPI_ID": "@payment-upi-id",
+    "PAYMENT_QR_VALIDITY_HOURS": "@payment-qr-validity-hours",
+    "VITE_APP_URL": "@app-url"
+  }
+}
