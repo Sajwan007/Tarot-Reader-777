@@ -13,22 +13,40 @@ const Login = () => {
   });
 
   const handleSubmit = async (e) => {
+    console.log('=== LOGIN SUBMISSION STARTED ===');
     e.preventDefault();
+    console.log('Form prevented default');
     setLoading(true);
 
     try {
+      console.log('Form data:', formData);
+      console.log('Email:', formData.email);
+      console.log('Password:', formData.password ? '***' : 'empty');
+      
+      if (!formData.email || !formData.password) {
+        toast.error('Please fill in all fields');
+        return;
+      }
+      
+      console.log('About to call authAPI.login...');
       const response = await authAPI.login(formData);
+      console.log('Login response:', response);
       
       if (response.data.success) {
         localStorage.setItem('token', response.data.data.token);
         localStorage.setItem('admin', JSON.stringify(response.data.data.admin));
         toast.success('Welcome back!');
         navigate('/admin');
+      } else {
+        toast.error('Login failed: Invalid response format');
       }
     } catch (error) {
-      toast.error(error.response?.data?.message || 'Login failed');
+      console.error('Login error:', error);
+      console.error('Error response:', error.response?.data);
+      toast.error(error.response?.data?.error || error.message || 'Login failed');
     } finally {
       setLoading(false);
+      console.log('=== LOGIN SUBMISSION ENDED ===');
     }
   };
 

@@ -6,7 +6,8 @@ import Dashboard from '../components/admin/Dashboard';
 import BookingsList from '../components/admin/BookingsList';
 import ClientsList from '../components/admin/ClientsList';
 import PaymentVerification from '../components/admin/PaymentVerification';
-import { Calendar, Users, DollarSign, Clock, LogOut, Menu, X } from 'lucide-react';
+import ContactSubmissions from '../components/admin/ContactSubmissions';
+import { Calendar, Users, DollarSign, Clock, LogOut, Menu, X, MessageCircle } from 'lucide-react';
 
 const AdminPanel = () => {
   const navigate = useNavigate();
@@ -58,6 +59,7 @@ const AdminPanel = () => {
     { id: 'bookings', label: 'Bookings', icon: Calendar },
     { id: 'payments', label: 'Verify Payments', icon: DollarSign },
     { id: 'clients', label: 'Clients', icon: Users },
+    { id: 'contact', label: 'Contact Messages', icon: MessageCircle },
   ];
 
   if (loading) {
@@ -172,6 +174,7 @@ const AdminPanel = () => {
             {activeTab === 'bookings' && <BookingsList bookings={bookings} onUpdate={loadData} />}
             {activeTab === 'payments' && <PaymentVerification bookings={bookings} onUpdate={loadData} />}
             {activeTab === 'clients' && <ClientsList clients={clients} />}
+            {activeTab === 'contact' && <ContactSubmissions />}
           </div>
         </div>
       </div>

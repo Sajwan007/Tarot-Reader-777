@@ -1,9 +1,8 @@
 import axios from 'axios';
 
 // Dynamic API base URL for Vercel deployment
-const API_BASE_URL = import.meta.env.VITE_APP_URL || 
-  (typeof window !== 'undefined' && window.location.origin) || 
-  'http://localhost:3000';
+const API_BASE_URL = import.meta.env.VITE_API_URL || 
+  'http://localhost:3001';
 
 export const api = axios.create({
   baseURL: API_BASE_URL,
@@ -36,8 +35,8 @@ api.interceptors.response.use(
 
 // Auth API
 export const authAPI = {
-  login: async (email: string, password: string) => {
-    const response = await api.post('/api/auth/login', { email, password });
+  login: async (credentials: { email: string; password: string }) => {
+    const response = await api.post('/api/auth/login', credentials);
     return response;
   },
   
@@ -122,6 +121,19 @@ export const clientsAPI = {
     const response = await api.post('/api/clients', clientData);
     return response;
   },
+};
+
+// Contact API
+export const contactAPI = {
+  submitContact: async (contactData: any) => {
+    const response = await api.post('/api/contact', contactData);
+    return response;
+  },
+  
+  getSubmissions: async () => {
+    const response = await api.get('/api/contact');
+    return response;
+  }
 };
 
 // Availability API

@@ -4,7 +4,8 @@ import { Toaster } from 'react-hot-toast';
 import { Navigation } from './components/Navigation';
 import { Footer } from './components/Footer';
 import { HomePage } from './pages/HomePage';
-import { BookingPage } from './pages/BookingPage';
+import { ContactPage } from './pages/ContactPage';
+import ThankYouPage from './pages/ThankYouPage';
 import { PaymentPage } from './pages/PaymentPage';
 import { ConfirmationPage } from './pages/ConfirmationPage';
 import Login from './pages/Login';
@@ -46,7 +47,8 @@ export function App() {
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/home" element={<HomePage />} />
-          <Route path="/booking" element={<BookingPage />} />
+          <Route path="/contact" element={<ContactPage />} />
+          <Route path="/thank-you" element={<ThankYouPage />} />
           <Route path="/payment" element={<PaymentPage />} />
           <Route path="/confirmation" element={<ConfirmationPage />} />
           <Route path="/login" element={<Login />} />

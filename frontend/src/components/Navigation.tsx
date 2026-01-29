@@ -1,12 +1,38 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Moon, Menu, X } from 'lucide-react';
 import { Button } from './ui/Button';
 import { motion, AnimatePresence } from 'framer-motion';
+
 export function Navigation() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
+
+  // Smooth scroll to section
+  const scrollToSection = (sectionId: string) => {
+    const element = document.getElementById(sectionId.replace('#', ''));
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  };
+
+  // Handle navigation click
+  const handleNavClick = (path: string) => {
+    if (path.startsWith('/#')) {
+      // Handle hash navigation on same page
+      if (location.pathname === '/') {
+        scrollToSection(path);
+      } else {
+        // Navigate to home first, then scroll
+        navigate('/');
+        setTimeout(() => scrollToSection(path), 100);
+      }
+    }
+    setIsMobileMenuOpen(false);
+  };
+
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20);
@@ -14,6 +40,7 @@ export function Navigation() {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
   // Close mobile menu when route changes
   useEffect(() => {
     setIsMobileMenuOpen(false);
@@ -36,8 +63,8 @@ export function Navigation() {
     path: '/#testimonials'
   },
   {
-    name: 'Book Reading',
-    path: '/booking'
+    name: 'Contact Us',
+    path: '/contact'
   }];
 
   return (
@@ -68,18 +95,29 @@ export function Navigation() {
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center gap-8">
-            {navLinks.map((link) =>
-            <Link
-              key={link.name}
-              to={link.path}
-              className="text-white/80 hover:text-gold font-inter transition-colors text-sm tracking-wide uppercase">
-
-                {link.name}
-              </Link>
-            )}
-            <Link to="/booking">
+            {navLinks.map((link) => {
+              if (link.path.startsWith('/#')) {
+                return (
+                  <button
+                    key={link.name}
+                    onClick={() => handleNavClick(link.path)}
+                    className="text-white/80 hover:text-gold font-inter transition-colors text-sm tracking-wide uppercase bg-transparent border-none cursor-pointer">
+                    {link.name}
+                  </button>
+                );
+              }
+              return (
+                <Link
+                  key={link.name}
+                  to={link.path}
+                  className="text-white/80 hover:text-gold font-inter transition-colors text-sm tracking-wide uppercase">
+                  {link.name}
+                </Link>
+              );
+            })}
+            <Link to="/contact">
               <Button variant="primary" size="sm">
-                Book a Reading
+                Contact Us
               </Button>
             </Link>
           </div>
@@ -118,18 +156,29 @@ export function Navigation() {
           className="md:hidden bg-cosmic-purple/95 backdrop-blur-xl border-b border-white/10 overflow-hidden">
 
             <div className="px-4 py-6 space-y-4 flex flex-col items-center">
-              {navLinks.map((link) =>
-            <Link
-              key={link.name}
-              to={link.path}
-              className="text-white/90 hover:text-gold font-cinzel text-lg">
-
-                  {link.name}
-                </Link>
-            )}
-              <Link to="/booking" className="w-full max-w-xs pt-4">
+              {navLinks.map((link) => {
+                if (link.path.startsWith('/#')) {
+                  return (
+                    <button
+                      key={link.name}
+                      onClick={() => handleNavClick(link.path)}
+                      className="text-white/90 hover:text-gold font-cinzel text-lg bg-transparent border-none cursor-pointer">
+                      {link.name}
+                    </button>
+                  );
+                }
+                return (
+                  <Link
+                    key={link.name}
+                    to={link.path}
+                    className="text-white/90 hover:text-gold font-cinzel text-lg">
+                    {link.name}
+                  </Link>
+                );
+              })}
+              <Link to="/contact" className="w-full max-w-xs pt-4">
                 <Button variant="primary" fullWidth>
-                  Book a Reading
+                  Contact Us
                 </Button>
               </Link>
             </div>

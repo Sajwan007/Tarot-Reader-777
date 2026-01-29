@@ -48,7 +48,7 @@ const Landing = () => {
   return (
     <div className="min-h-screen bg-cosmic-dark text-white">
       {/* Hero Section */}
-      <section className="relative overflow-hidden py-24">
+      <section id="home" className="relative overflow-hidden py-24">
         <div className="absolute inset-0 bg-gradient-to-b from-purple-900/20 to-transparent"></div>
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
@@ -66,18 +66,18 @@ const Landing = () => {
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <button
-                onClick={() => navigate('/book')}
+                onClick={() => navigate('/contact')}
                 className="px-8 py-4 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white rounded-full font-bold text-lg transition transform hover:scale-105 flex items-center justify-center gap-2"
               >
-                Book Your Reading
+                Contact Us
                 <ArrowRight size={20} />
               </button>
               <button
-                onClick={() => navigate('/booking')}
+                onClick={() => navigate('/contact')}
                 className="px-8 py-4 border-2 border-purple-400 hover:bg-purple-400 hover:bg-opacity-20 text-white rounded-full font-bold text-lg transition flex items-center justify-center gap-2"
               >
                 Learn More
-                <Sparkles size={20} />
+                <ArrowRight size={20} />
               </button>
             </div>
           </div>
@@ -85,7 +85,7 @@ const Landing = () => {
       </section>
 
       {/* Services Section */}
-      <section className="py-20 bg-gradient-to-b from-transparent to-purple-900/20">
+      <section id="services" className="py-20 bg-gradient-to-b from-transparent to-purple-900/20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold text-white mb-4">Our Tarot Services</h2>
@@ -110,7 +110,7 @@ const Landing = () => {
       </section>
 
       {/* Benefits Section */}
-      <section className="py-20">
+      <section id="about" className="py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>
@@ -154,8 +154,41 @@ const Landing = () => {
         </div>
       </section>
 
+      {/* Testimonials Section */}
+      <section id="testimonials" className="py-20 bg-gradient-to-b from-transparent to-purple-900/20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl font-bold text-white mb-4">What Our Clients Say</h2>
+            <p className="text-xl text-purple-200">Real experiences from people who've found clarity through our readings</p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="bg-white bg-opacity-10 backdrop-blur-md rounded-xl p-6 border border-purple-400 border-opacity-30">
+              <div className="flex items-center mb-4">
+                <div className="text-yellow-400">★★★★★</div>
+              </div>
+              <p className="text-purple-200 mb-4">"The reading was incredibly accurate and helped me make a major life decision with confidence."</p>
+              <div className="text-white font-semibold">- Priya Sharma</div>
+            </div>
+            <div className="bg-white bg-opacity-10 backdrop-blur-md rounded-xl p-6 border border-purple-400 border-opacity-30">
+              <div className="flex items-center mb-4">
+                <div className="text-yellow-400">★★★★★</div>
+              </div>
+              <p className="text-purple-200 mb-4">"Amazing insights! The guidance I received was exactly what I needed to hear at this time."</p>
+              <div className="text-white font-semibold">- Rahul Kumar</div>
+            </div>
+            <div className="bg-white bg-opacity-10 backdrop-blur-md rounded-xl p-6 border border-purple-400 border-opacity-30">
+              <div className="flex items-center mb-4">
+                <div className="text-yellow-400">★★★★★</div>
+              </div>
+              <p className="text-purple-200 mb-4">"Professional, insightful, and genuinely caring. I left feeling empowered and clear."</p>
+              <div className="text-white font-semibold">- Anjali Patel</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Contact Section */}
-      <section className="py-20 bg-black bg-opacity-30">
+      <section id="contact" className="py-20 bg-black bg-opacity-30">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
             <div>
