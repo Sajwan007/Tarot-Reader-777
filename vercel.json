@@ -1,5 +1,6 @@
 {
-  "version": 2,
+  "name": "tarot-reader-777",
+  "version": "1.0.1",
   "buildCommand": "cd frontend && npm install && npm run build",
   "outputDirectory": "frontend/dist",
   "devCommand": "cd frontend && npm run dev",
