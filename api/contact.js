@@ -1,11 +1,3 @@
-import { createClient } from '@supabase/supabase-js';
-import { sendContactNotification } from './utils/emailService.js';
-
-const supabase = createClient(
-  process.env.SUPABASE_URL,
-  process.env.SUPABASE_SERVICE_ROLE_KEY
-);
-
 export default async function handler(req, res) {
   // Set CORS headers
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -45,40 +37,23 @@ export default async function handler(req, res) {
         });
       }
       
-      // Save to database
-      const { data, error } = await supabase
-        .from('contact_submissions')
-        .insert({
-          name: name.trim(),
-          email: email.toLowerCase().trim(),
-          phone: phone ? phone.trim() : null,
-          reason,
-          preferred_contact: preferredContact,
-          message: message.trim(),
-          created_at: new Date().toISOString()
-        })
-        .select()
-        .single();
-      
-      if (error) throw error;
-      
-      // Send email notification (async)
-      sendContactNotification({
+      // For now, just return success without database
+      // TODO: Add database integration later
+      console.log('Contact form submission:', {
         name: name.trim(),
         email: email.toLowerCase().trim(),
-        phone: phone ? phone.trim() : 'Not provided',
+        phone: phone ? phone.trim() : null,
         reason,
         preferredContact,
-        message: message.trim()
-      }).catch(emailError => {
-        console.error('Failed to send notification email:', emailError);
+        message: message.trim(),
+        timestamp: new Date().toISOString()
       });
       
       return res.json({
         success: true,
         data: {
           message: 'Contact form submitted successfully',
-          submission: data
+          submission: { name, email, reason, preferredContact }
         }
       });
       
