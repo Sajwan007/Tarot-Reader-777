@@ -7,11 +7,11 @@
   "installCommand": "npm install --prefix frontend",
   "functions": {
     "api/**/*.js": {
-      "runtime": "nodejs18.x",
+      "runtime": "nodejs20.x",
       "maxDuration": 30
     },
     "api/**/*.ts": {
-      "runtime": "nodejs18.x"
+      "runtime": "nodejs20.x"
     }
   },
   "rewrites": [
