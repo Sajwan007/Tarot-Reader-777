@@ -1,3 +1,5 @@
+import { sendContactNotification } from './utils/emailService.js';
+
 export default function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
@@ -8,10 +10,25 @@ export default function handler(req, res) {
   }
 
   if (req.method === 'POST') {
+    const { name, email, phone, reason, preferredContact, message } = req.body;
+    
+    // Send email notification (async, don't wait)
+    sendContactNotification({
+      name: name?.trim() || 'Unknown',
+      email: email?.toLowerCase().trim() || 'unknown@example.com',
+      phone: phone?.trim() || 'Not provided',
+      reason: reason || 'Not specified',
+      preferredContact: preferredContact || 'Not specified',
+      message: message?.trim() || 'No message provided'
+    }).catch(emailError => {
+      console.error('Failed to send notification email:', emailError);
+      // Don't fail the request if email fails
+    });
+    
     return res.json({
       success: true,
-      message: 'Contact form received!',
-      data: req.body
+      message: 'Contact form received! We will get back to you soon.',
+      data: { name, email, reason, preferredContact }
     });
   }
 
