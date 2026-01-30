@@ -7,8 +7,7 @@
   "installCommand": "npm install --prefix frontend",
   "functions": {
     "api/**/*.js": {
-      "runtime": "nodejs18.x",
-      "maxDuration": 30
+      "runtime": "@vercel/node"
     }
   },
   "rewrites": [
