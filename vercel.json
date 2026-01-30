@@ -7,11 +7,11 @@
   "installCommand": "npm install --prefix frontend",
   "functions": {
     "api/**/*.js": {
-      "runtime": "nodejs20.x",
+      "runtime": "@vercel/node@3.0.0",
       "maxDuration": 30
     },
     "api/**/*.ts": {
-      "runtime": "nodejs20.x"
+      "runtime": "@vercel/node@3.0.0"
     }
   },
   "rewrites": [
