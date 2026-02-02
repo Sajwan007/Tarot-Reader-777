@@ -22,6 +22,11 @@ export default function handler(req, res) {
       message: message?.trim() || 'No message provided'
     }).catch(emailError => {
       console.error('Failed to send notification email:', emailError);
+      console.error('Environment check:', {
+        EMAIL_USER: process.env.EMAIL_USER ? 'Set' : 'Not set',
+        EMAIL_PASS: process.env.EMAIL_PASS ? 'Set' : 'Not set',
+        ADMIN_EMAIL: process.env.ADMIN_EMAIL || process.env.EMAIL_USER
+      });
       // Don't fail the request if email fails
     });
     
