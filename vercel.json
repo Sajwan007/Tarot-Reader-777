@@ -1,0 +1,26 @@
+{
+  "buildCommand": "npm run build",
+  "outputDirectory": "frontend/dist",
+  "installCommand": "cd frontend && npm install && cd ../api && npm install",
+  "functions": {
+    "api/contact.js": {
+      "runtime": "@vercel/node@3.0.0"
+    },
+    "api/test.js": {
+      "runtime": "@vercel/node@3.0.0"
+    },
+    "api/test-email.js": {
+      "runtime": "@vercel/node@3.0.0"
+    }
+  },
+  "rewrites": [
+    {
+      "source": "/api/(.*)",
+      "destination": "/api/$1"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/frontend/$1"
+    }
+  ]
+}
