@@ -12,23 +12,26 @@ export default function handler(req, res) {
   if (req.method === 'POST') {
     const { name, email, phone, reason, preferredContact, message } = req.body;
     
-    // Send email notification (async, don't wait)
-    sendContactNotification({
-      name: name?.trim() || 'Unknown',
-      email: email?.toLowerCase().trim() || 'unknown@example.com',
-      phone: phone?.trim() || 'Not provided',
-      reason: reason || 'Not specified',
-      preferredContact: preferredContact || 'Not specified',
-      message: message?.trim() || 'No message provided'
-    }).catch(emailError => {
-      console.error('Failed to send notification email:', emailError);
+    // Send email notification (wait for completion)
+    try {
+      await sendContactNotification({
+        name: name?.trim() || 'Unknown',
+        email: email?.toLowerCase().trim() || 'unknown@example.com',
+        phone: phone?.trim() || 'Not provided',
+        reason: reason || 'Not specified',
+        preferredContact: preferredContact || 'Not specified',
+        message: message?.trim() || 'No message provided'
+      });
+      console.log('✅ Contact notification email sent successfully');
+    } catch (emailError) {
+      console.error('❌ Failed to send notification email:', emailError);
       console.error('Environment check:', {
         EMAIL_USER: process.env.EMAIL_USER ? 'Set' : 'Not set',
         EMAIL_PASS: process.env.EMAIL_PASS ? 'Set' : 'Not set',
         ADMIN_EMAIL: process.env.ADMIN_EMAIL || process.env.EMAIL_USER
       });
-      // Don't fail the request if email fails
-    });
+      // Still return success but log the error
+    }
     
     return res.json({
       success: true,
