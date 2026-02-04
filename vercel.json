@@ -1,26 +1,20 @@
 {
-  "buildCommand": "npm run build",
-  "outputDirectory": "frontend/dist",
-  "installCommand": "cd frontend && npm install && cd ../api && npm install",
-  "functions": {
-    "api/contact.js": {
-      "runtime": "@vercel/node@3.0.0"
-    },
-    "api/test.js": {
-      "runtime": "@vercel/node@3.0.0"
-    },
-    "api/test-email.js": {
-      "runtime": "@vercel/node@3.0.0"
-    }
-  },
-  "rewrites": [
+  "version": 2,
+  "builds": [
     {
-      "source": "/api/(.*)",
-      "destination": "/api/$1"
+      "src": "frontend/package.json",
+      "use": "@vercel/static-build",
+      "config": { "distDir": "dist" }
     },
-    {
-      "source": "/(.*)",
-      "destination": "/frontend/$1"
-    }
+    { "src": "api/contact.js", "use": "@vercel/node" },
+    { "src": "api/test.js", "use": "@vercel/node" },
+    { "src": "api/test-email.js", "use": "@vercel/node" },
+    { "src": "api/utils/emailService.js", "use": "@vercel/node" }
+  ],
+  "routes": [
+    { "src": "/api/contact", "dest": "/api/contact.js" },
+    { "src": "/api/test", "dest": "/api/test.js" },
+    { "src": "/api/test-email", "dest": "/api/test-email.js" },
+    { "src": "/(.*)", "dest": "/frontend/$1" }
   ]
 }
