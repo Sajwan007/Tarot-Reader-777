@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "node dev-server.js",
-    "build": "node -e \"require('fs').mkdirSync('dist', {recursive: true}); require('fs').writeFileSync('dist/build.txt', 'Build complete');\""
+    "build": "echo 'API Build Complete'"
   },
   "dependencies": {
     "@sendgrid/mail": "^7.7.0",
