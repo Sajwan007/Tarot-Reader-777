@@ -23,14 +23,47 @@ export default async function handler(req, res) {
         NODE_ENV: process.env.NODE_ENV
       });
       
-      // For now, just return success without sending email
-      console.log('✅ Contact form received successfully');
+      // Send email using nodemailer
+      const nodemailer = require('nodemailer');
+      
+      const transporter = nodemailer.createTransporter({
+        service: 'gmail',
+        auth: {
+          user: process.env.EMAIL_USER,
+          pass: process.env.EMAIL_PASS
+        }
+      });
+
+      const mailOptions = {
+        from: process.env.EMAIL_USER,
+        to: process.env.ADMIN_EMAIL || process.env.EMAIL_USER,
+        subject: 'New Contact Form - Tarot Reader 777',
+        html: `
+          <div style="font-family: Arial, sans-serif; padding: 20px;">
+            <h2 style="color: #8B5CF6;">New Contact Form Submission</h2>
+            <p><strong>Name:</strong> ${name}</p>
+            <p><strong>Email:</strong> ${email}</p>
+            <p><strong>Phone:</strong> ${phone || 'Not provided'}</p>
+            <p><strong>Reason:</strong> ${reason || 'Not specified'}</p>
+            <p><strong>Preferred Contact:</strong> ${preferredContact || 'Not specified'}</p>
+            <p><strong>Message:</strong></p>
+            <div style="background: #f5f5f5; padding: 10px; border-radius: 5px;">${message}</div>
+            <hr>
+            <p><small>Sent: ${new Date().toLocaleString()}</small></p>
+          </div>
+        `
+      };
+
+      console.log('Sending email...');
+      const emailResult = await transporter.sendMail(mailOptions);
+      console.log('✅ Email sent successfully:', emailResult.messageId);
       
       return res.json({
         success: true,
         message: 'Contact form received! We will get back to you soon.',
         data: { name, email, reason, preferredContact },
-        emailSent: false, // Will enable after debugging
+        emailSent: true,
+        messageId: emailResult.messageId,
         debug: {
           received: req.body,
           envSet: {
