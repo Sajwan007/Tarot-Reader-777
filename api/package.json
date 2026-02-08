@@ -2,8 +2,7 @@
   "name": "tarot-reader-777-api",
   "version": "1.0.0",
   "private": true,
-  "type": "module",
-  "scripts": {
+    "scripts": {
     "dev": "node dev-server.js",
     "build": "echo 'API Build Complete'"
   },
