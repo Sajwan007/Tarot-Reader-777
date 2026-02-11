@@ -7,7 +7,7 @@
       "config": { "distDir": "dist" }
     },
     { "src": "api/ping.js", "use": "@vercel/node" },
-    { "src": "api/contact-final.js", "use": "@vercel/node" },
+    { "src": "api/contact-production.js", "use": "@vercel/node" },
     { "src": "api/test.js", "use": "@vercel/node" },
     { "src": "api/test-email.js", "use": "@vercel/node" },
     { "src": "api/test-direct-email.js", "use": "@vercel/node" }
