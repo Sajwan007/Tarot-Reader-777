@@ -6,38 +6,26 @@
       "use": "@vercel/static-build",
       "config": { "distDir": "dist" }
     },
-    {
-      "src": "api/contact-simple.js",
-      "use": "@vercel/node"
-    },
-    {
-      "src": "api/auth/login.js",
-      "use": "@vercel/node"
-    },
-    {
-      "src": "api/bookings.js",
-      "use": "@vercel/node"
-    },
-    {
-      "src": "api/clients.js",
-      "use": "@vercel/node"
-    },
-    {
-      "src": "api/contact-submissions.js",
-      "use": "@vercel/node"
-    },
-    {
-      "src": "api/ping.js",
-      "use": "@vercel/node"
-    }
+    { "src": "api/ping.js", "use": "@vercel/node" },
+    { "src": "api/contact-simple.js", "use": "@vercel/node" },
+    { "src": "api/auth/login.js", "use": "@vercel/node" },
+    { "src": "api/bookings.js", "use": "@vercel/node" },
+    { "src": "api/clients.js", "use": "@vercel/node" },
+    { "src": "api/contact-submissions.js", "use": "@vercel/node" },
+    { "src": "api/test.js", "use": "@vercel/node" },
+    { "src": "api/test-email.js", "use": "@vercel/node" },
+    { "src": "api/test-direct-email.js", "use": "@vercel/node" }
   ],
   "routes": [
+    { "src": "/api/ping", "dest": "/api/ping.js" },
     { "src": "/api/contact", "dest": "/api/contact-simple.js" },
     { "src": "/api/auth/login", "dest": "/api/auth/login.js" },
     { "src": "/api/bookings", "dest": "/api/bookings.js" },
     { "src": "/api/clients", "dest": "/api/clients.js" },
     { "src": "/api/contact-submissions", "dest": "/api/contact-submissions.js" },
-    { "handle": "filesystem" },
-    { "src": "/(.*)", "dest": "/frontend/dist/index.html" }
+    { "src": "/api/test", "dest": "/api/test.js" },
+    { "src": "/api/test-email", "dest": "/api/test-email.js" },
+    { "src": "/api/test-direct-email", "dest": "/api/test-direct-email.js" },
+    { "src": "/(.*)", "dest": "/frontend/$1" }
   ]
 }
