@@ -21,37 +21,43 @@ const contactReasons = [
     id: 'general',
     title: 'General Inquiry',
     icon: <MessageCircle className="w-5 h-5" />,
-    description: 'Questions about services or general information'
+    description: 'Questions about services or general information',
+    price: 0
   },
   {
     id: 'love',
     title: 'Love Reading',
     icon: <Heart className="w-5 h-5" />,
-    description: 'Questions about love and relationship readings'
+    description: 'Questions about love and relationship readings',
+    price: 1200
   },
   {
     id: 'career',
     title: 'Career Guidance',
     icon: <Briefcase className="w-5 h-5" />,
-    description: 'Questions about career and life path readings'
+    description: 'Questions about career and life path readings',
+    price: 1500
   },
   {
     id: 'yesno',
     title: 'Quick Question',
     icon: <HelpCircle className="w-5 h-5" />,
-    description: 'Yes/No questions and quick guidance'
+    description: 'Yes/No questions and quick guidance',
+    price: 500
   },
   {
     id: 'lifepath',
     title: 'Life Path Reading',
     icon: <Compass className="w-5 h-5" />,
-    description: 'Deep life path and spiritual guidance'
+    description: 'Deep life path and spiritual guidance',
+    price: 2000
   },
   {
     id: 'custom',
     title: 'Custom Question',
     icon: <Star className="w-5 h-5" />,
-    description: 'Personalized tarot reading for specific questions'
+    description: 'Personalized tarot reading for specific questions',
+    price: 2500
   }
 ];
 
@@ -73,8 +79,10 @@ export function ContactPage() {
     name: '',
     email: '',
     phone: '',
+    preferredContact: '',
     message: '',
-    preferredContact: ''
+    selectedService: '',
+    servicePrice: 0
   });
   
   const updateForm = (key: string, value: string) => {
@@ -155,7 +163,11 @@ export function ContactPage() {
                   {contactReasons.map((reason) => (
                     <button
                       key={reason.id}
-                      onClick={() => updateForm('reason', reason.id)}
+                      onClick={() => {
+  updateForm('reason', reason.id);
+  updateForm('selectedService', reason.title);
+  updateForm('servicePrice', String(reason.price || 0));
+}}
                       className={`flex items-center justify-between p-4 rounded-xl border transition-all ${
                         formData.reason === reason.id 
                           ? 'bg-gold/20 border-gold text-white' 
@@ -170,14 +182,22 @@ export function ContactPage() {
                         }`}>
                           {reason.icon}
                         </div>
-                        <div className="text-left">
+                        <div className="text-left flex-1">
                           <div className="font-bold font-cinzel">{reason.title}</div>
                           <div className="text-sm opacity-70">{reason.description}</div>
+                          {reason.price > 0 && (
+                            <div className="text-gold font-bold mt-1">₹{reason.price}</div>
+                          )}
                         </div>
                       </div>
-                      {formData.reason === reason.id && (
-                        <Star className="text-gold" />
-                      )}
+                      <div className="flex items-center gap-2">
+                        {reason.price > 0 && (
+                          <span className="text-gold text-sm font-bold">₹{reason.price}</span>
+                        )}
+                        {formData.reason === reason.id && (
+                          <Star className="text-gold" />
+                        )}
+                      </div>
                     </button>
                   ))}
                 </div>

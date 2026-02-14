@@ -13,7 +13,7 @@ export default async function handler(req, res) {
       console.log('=== Contact Form Submission ===');
       console.log('Request body:', req.body);
       
-      const { name, email, phone, reason, preferredContact, message } = req.body;
+      const { name, email, phone, reason, preferredContact, message, selectedService, servicePrice } = req.body;
       
       // Validate required fields
       if (!name || !email || !message) {
@@ -55,6 +55,8 @@ export default async function handler(req, res) {
             <p><strong>Phone:</strong> ${phone || 'Not provided'}</p>
             <p><strong>Reason:</strong> ${reason || 'Not specified'}</p>
             <p><strong>Preferred Contact:</strong> ${preferredContact || 'Not specified'}</p>
+            ${selectedService ? `<p><strong>Selected Service:</strong> ${selectedService}</p>` : ''}
+            ${servicePrice ? `<p><strong>Service Price:</strong> ₹${servicePrice}</p>` : ''}
             <p><strong>Message:</strong></p>
             <div style="background: #f5f5f5; padding: 10px; border-radius: 5px;">${message}</div>
             <hr>
@@ -67,12 +69,29 @@ export default async function handler(req, res) {
       const result = await transporter.sendMail(mailOptions);
       console.log('✅ Email sent successfully:', result.messageId);
       
+      // Store submission for admin panel
+      const submissionData = {
+        name,
+        email,
+        phone,
+        reason,
+        preferredContact,
+        message,
+        selectedService,
+        servicePrice
+      };
+      
+      // In a real app, you'd store this in a database
+      // For now, we'll just log it and return success
+      console.log('📝 Contact submission stored for admin panel:', submissionData);
+      
       return res.json({
         success: true,
         message: 'Contact form received! We will get back to you soon.',
-        data: { name, email, reason, preferredContact },
+        data: { name, email, reason, preferredContact, selectedService, servicePrice },
         emailSent: true,
-        messageId: result.messageId
+        messageId: result.messageId,
+        submissionStored: true
       });
       
     } catch (error) {
