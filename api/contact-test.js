@@ -36,7 +36,7 @@ export default async function handler(req, res) {
       
       // Use SendGrid if available
       try {
-        const { default: sgMail } = await import('@sendgrid/mail');
+        import sgMail from '@sendgrid/mail';
         sgMail.setApiKey(process.env.SENDGRID_API_KEY);
         
         const msg = {

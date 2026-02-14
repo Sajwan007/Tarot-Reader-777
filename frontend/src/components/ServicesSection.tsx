@@ -5,7 +5,7 @@ export function ServicesSection() {
   const services = [
   {
     title: 'Love Tarot Reading',
-    price: '₹999',
+    price: '₹399',
     description:
     'Discover insights about your romantic path, soulmate connections, and relationship dynamics.',
     icon: <Heart className="w-6 h-6" />,
@@ -13,7 +13,7 @@ export function ServicesSection() {
   },
   {
     title: 'Career Guidance',
-    price: '₹1,299',
+    price: '₹299',
     description:
     'Navigate your professional journey, uncover hidden opportunities, and find your true calling.',
     icon: <Briefcase className="w-6 h-6" />,
@@ -21,7 +21,7 @@ export function ServicesSection() {
   },
   {
     title: 'Yes/No Reading',
-    price: '₹499',
+    price: '₹249',
     description:
     'Quick, direct answers to your most pressing questions when you need immediate clarity.',
     icon: <HelpCircle className="w-6 h-6" />,
@@ -29,7 +29,7 @@ export function ServicesSection() {
   },
   {
     title: 'Life Path Reading',
-    price: '₹1,799',
+    price: '₹299',
     description:
     "A deep dive into your life's purpose, spiritual lessons, and the grand design of your destiny.",
     icon: <Compass className="w-6 h-6" />,
@@ -37,7 +37,7 @@ export function ServicesSection() {
   },
   {
     title: 'Custom Question',
-    price: '₹899',
+    price: '₹499',
     description:
     'Personalized reading focused entirely on a specific situation or topic of your choice.',
     icon: <Star className="w-6 h-6" />,
