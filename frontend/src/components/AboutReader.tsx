@@ -5,7 +5,7 @@ export function AboutReader() {
   return (
     <section id="about" className="py-24 bg-cosmic-dark relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12 lg:gap-16 items-center">
           {/* Image Side */}
           <motion.div
             initial={{
@@ -23,16 +23,16 @@ export function AboutReader() {
 
             <div className="relative z-10 rounded-2xl overflow-hidden border-2 border-gold/20 shadow-2xl">
               <img
-                src="https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80"
+                src="https://img.freepik.com/free-photo/front-view-woma…arot_23-2150273199.jpg?semt=ais_hybrid&w=740&q=80"
                 alt="Tarot Reader"
                 className="w-full h-auto object-cover hover:scale-105 transition-transform duration-700" />
 
               <div className="absolute inset-0 bg-gradient-to-t from-cosmic-dark/80 to-transparent" />
               <div className="absolute bottom-0 left-0 p-8">
-                <h3 className="text-2xl font-cinzel font-bold text-white">
-                  Elena Mystica
+                <h3 className="text-2xl font-cinzel font-bold text-gold" >
+                 Mystic Tarot  
                 </h3>
-                <p className="text-gold">Intuitive Tarot Reader</p>
+                <p className="text-white font-bold text-xl bg-gold/20 px-3 py-1 rounded-full backdrop-blur-sm">by Dimple Chettri </p>
               </div>
             </div>
 
@@ -72,28 +72,28 @@ export function AboutReader() {
               highest potential.
             </p>
 
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-              <div className="bg-white/5 p-4 rounded-xl border border-white/10 text-center">
-                <Clock className="w-8 h-8 text-gold mx-auto mb-2" />
-                <div className="text-2xl font-bold text-white font-cinzel">
+            <div className="grid grid-cols-3 sm:grid-cols-3 gap-3 sm:gap-6">
+              <div className="bg-white/5 p-3 sm:p-4 rounded-xl border border-white/10 text-center">
+                <Clock className="w-6 h-6 sm:w-8 sm:h-8 text-gold mx-auto mb-2" />
+                <div className="text-lg sm:text-2xl font-bold text-white font-cinzel">
                   10+
                 </div>
                 <div className="text-xs text-white/50 uppercase tracking-wider">
                   Years Experience
                 </div>
               </div>
-              <div className="bg-white/5 p-4 rounded-xl border border-white/10 text-center">
-                <Users className="w-8 h-8 text-gold mx-auto mb-2" />
-                <div className="text-2xl font-bold text-white font-cinzel">
-                  5k+
+              <div className="bg-white/5 p-3 sm:p-4 rounded-xl border border-white/10 text-center">
+                <Users className="w-6 h-6 sm:w-8 sm:h-8 text-gold mx-auto mb-2" />
+                <div className="text-lg sm:text-2xl font-bold text-white font-cinzel">
+                  1.5k+
                 </div>
                 <div className="text-xs text-white/50 uppercase tracking-wider">
                   Clients Helped
                 </div>
               </div>
-              <div className="bg-white/5 p-4 rounded-xl border border-white/10 text-center">
-                <Award className="w-8 h-8 text-gold mx-auto mb-2" />
-                <div className="text-2xl font-bold text-white font-cinzel">
+              <div className="bg-white/5 p-3 sm:p-4 rounded-xl border border-white/10 text-center">
+                <Award className="w-6 h-6 sm:w-8 sm:h-8 text-gold mx-auto mb-2" />
+                <div className="text-lg sm:text-2xl font-bold text-white font-cinzel">
                   Cert.
                 </div>
                 <div className="text-xs text-white/50 uppercase tracking-wider">
@@ -104,6 +104,6 @@ export function AboutReader() {
           </motion.div>
         </div>
       </div>
-    </section>);
-
+    </section>
+  );
 }

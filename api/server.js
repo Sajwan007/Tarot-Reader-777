@@ -18,10 +18,7 @@ app.use(express.json());
 
 // Import and use Vercel functions
 import loginHandler from './auth/login.js';
-import bookingsHandler from './bookings/index.js';
-import clientsHandler from './clients/index.js';
-import paymentsHandler from './payments/index.js';
-import servicesHandler from './services/index.js';
+import contactHandler from './contact.js';
 
 // Routes - wrap Vercel handlers to work with Express
 app.post('/api/auth/login', (req, res) => {
@@ -45,14 +42,15 @@ app.post('/api/auth/login', (req, res) => {
   });
 });
 
-app.get('/api/bookings', (req, res) => {
+// Contact form route
+app.post('/api/contact', (req, res) => {
   const vercelReq = {
-    method: 'GET',
-    query: req.query,
+    method: 'POST',
+    body: req.body,
     headers: req.headers
   };
   
-  bookingsHandler(vercelReq, {
+  contactHandler(vercelReq, {
     status: (code) => {
       res.status(code);
       return {
@@ -73,5 +71,5 @@ app.get('/api/health', (req, res) => {
 app.listen(PORT, () => {
   console.log(`🚀 API server running on http://localhost:${PORT}`);
   console.log(`📊 Health check: http://localhost:${PORT}/api/health`);
-  console.log(`🔐 Login endpoint: http://localhost:${PORT}/api/auth/login`);
+  console.log(`� Contact endpoint: http://localhost:${PORT}/api/contact`);
 });

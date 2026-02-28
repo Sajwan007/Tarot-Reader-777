@@ -199,7 +199,7 @@ const Landing = () => {
             <div>
               <Mail className="text-purple-400 mx-auto mb-4" size={32} />
               <h3 className="text-xl font-bold text-white mb-2">Email</h3>
-              <p className="text-purple-200">info@tarotreader777.com</p>
+              <p className="text-purple-200">scdcacademy@gmail.com</p>
             </div>
             <div>
               <MapPin className="text-purple-400 mx-auto mb-4" size={32} />

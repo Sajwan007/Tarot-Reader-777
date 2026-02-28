@@ -4,6 +4,7 @@ import { ServicesSection } from '../components/ServicesSection';
 import { HowItWorks } from '../components/HowItWorks';
 import { AboutReader } from '../components/AboutReader';
 import { Testimonials } from '../components/Testimonials';
+import { FAQSection } from '../components/FAQSection';
 import { motion } from 'framer-motion';
 export function HomePage() {
   return (
@@ -26,6 +27,7 @@ export function HomePage() {
       <HowItWorks />
       <AboutReader />
       <Testimonials />
-    </motion.main>);
-
+      <FAQSection />
+    </motion.main>
+  );
 }

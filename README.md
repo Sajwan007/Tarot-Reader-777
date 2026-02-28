@@ -1,15 +1,15 @@
 # 🔮 Tarot Reader 777
 
-A complete tarot reading booking application with admin dashboard, payment processing, and email notifications.
+A modern, responsive tarot reading website with contact form submissions and beautiful UX animations.
 
 ## ✨ Features
 
-- **Client Booking Interface**: Beautiful, responsive booking form for clients
-- **Admin Dashboard**: Comprehensive dashboard for managing bookings and payments
-- **Payment Integration**: UPI QR code generation and payment verification
-- **Email Notifications**: Automated emails for booking confirmations and payment status
-- **Real-time Updates**: Live booking status and payment tracking
-- **Mobile Responsive**: Works perfectly on all devices
+- **Beautiful UI**: Modern, responsive design with Tailwind CSS
+- **Smooth Animations**: Framer Motion interactions throughout
+- **Contact Form**: Working contact submissions with email notifications
+- **Mobile Optimized**: Perfect responsive design for all devices
+- **Interactive Elements**: Hover effects, micro-interactions, and smooth transitions
+- **Professional UX**: Thoughtful user experience design
 
 ## 🛠️ Tech Stack
 
@@ -19,23 +19,14 @@ A complete tarot reading booking application with admin dashboard, payment proce
 - **Tailwind CSS** for styling
 - **Framer Motion** for animations
 - **React Router** for navigation
-- **React Hook Form** for form handling
-- **Zustand** for state management
-- **Axios** for API calls
+- **Lucide React** for icons
 
 ### Backend
-- **Node.js** with TypeScript
-- **Vercel Serverless Functions**
-- **Supabase** for database
-- **SendGrid** for email services
+- **Node.js** with ES Modules
+- **Express.js** for API server
+- **Nodemailer** for email notifications
 - **JWT** for authentication
-- **bcrypt** for password hashing
-- **QRCode** for payment QR generation
-
-### Database
-- **PostgreSQL** via Supabase
-- **Row Level Security** (RLS)
-- **Real-time subscriptions**
+- **CORS** for cross-origin requests
 
 ## 📁 Project Structure
 
@@ -49,17 +40,18 @@ Reader777/
 │   │   └── App.tsx         # Main app component
 │   ├── package.json
 │   └── vite.config.ts
-├── api/                     # Vercel serverless functions
-│   ├── auth/               # Authentication routes
+├── api/                     # Node.js API
+│   ├── auth/               # Authentication handlers
 │   ├── bookings/           # Booking management
-│   ├── payments/           # Payment processing
-│   ├── services/           # Email services
-│   └── package.json
-├── supabase/               # Database schema
-│   └── schema.sql
-├── vercel.json            # Vercel configuration
-├── .env.example           # Environment variables template
-└── README.md
+│   ├── utils/              # Utility functions (email service)
+│   ├── services/           # Service definitions
+│   ├── server.js           # Main server file
+│   ├── vercel.json         # Vercel configuration
+│   ├── package.json        # Dependencies
+│   └── codefiles/         # Archive of old files
+├── .gitignore
+├── README.md
+└── package.json           # Root dependencies
 ```
 
 ## 🚀 Quick Start
@@ -67,9 +59,7 @@ Reader777/
 ### Prerequisites
 
 1. **Node.js** (v18 or higher)
-2. **Supabase Account** - https://supabase.com
-3. **SendGrid Account** - https://sendgrid.com
-4. **Vercel Account** - https://vercel.com
+2. **npm** or **yarn** package manager
 
 ### Installation
 
@@ -92,55 +82,53 @@ npm install
 
 3. **Set up environment variables**
 ```bash
-# Copy the example environment file
-cp .env.example .env
+# Copy example environment file
+cp api/.env.example api/.env.local
 
 # Fill in your environment variables
 # See Environment Variables section below
 ```
 
-4. **Set up Supabase database**
+4. **Run locally**
 ```bash
-# Go to Supabase dashboard > SQL Editor
-# Copy and run the entire content from supabase/schema.sql
-```
-
-5. **Run locally**
-```bash
-# Frontend
+# Frontend (in terminal 1)
 cd frontend
 npm run dev
 
-# API (in separate terminal)
+# API (in terminal 2)
 cd api
-npx vercel dev
+node server.js
 ```
+
+Applications will be available at:
+- Frontend: http://localhost:5173
+- API: http://localhost:3001
 
 ## 🔧 Environment Variables
 
-Create a `.env` file in the root directory:
+Create a `api/.env.local` file:
 
 ```env
-# Supabase Configuration
-VITE_SUPABASE_URL=https://your-project.supabase.co
-VITE_SUPABASE_ANON_KEY=your-anon-key
-SUPABASE_SERVICE_ROLE_KEY=your-service-role-key
+# Email Configuration
+EMAIL_USER=your-gmail@gmail.com
+EMAIL_PASS=your-app-password
+ADMIN_EMAIL=admin@example.com
 
-# SendGrid Configuration
+# Optional: SendGrid (fallback to Gmail if not set)
 SENDGRID_API_KEY=SG.your-sendgrid-api-key
-SENDGRID_FROM_EMAIL=noreply@yourdomain.com
-SENDGRID_FROM_NAME=Tarot Reader 777
 
 # JWT Configuration
 JWT_SECRET=your-super-secret-random-string-min-32-chars
 
-# Payment Configuration
-PAYMENT_UPI_ID=your-upi-id@provider
-PAYMENT_QR_VALIDITY_HOURS=24
-
-# App Configuration
-VITE_APP_URL=http://localhost:5173
+# Development
+NODE_ENV=development
 ```
+
+### Gmail Setup for Email
+
+1. Enable 2-Factor Authentication on your Gmail account
+2. Generate an App Password: https://myaccount.google.com/apppasswords
+3. Use the 16-character App Password (not your regular password)
 
 ## 🌐 Deployment
 
@@ -149,7 +137,7 @@ VITE_APP_URL=http://localhost:5173
 1. **Push to GitHub**
 ```bash
 git add .
-git commit -m "Initial commit"
+git commit -m "Ready for deployment"
 git push origin main
 ```
 
@@ -158,126 +146,77 @@ git push origin main
 - Click "Add New" → "Project"
 - Import your GitHub repository
 - Configure environment variables in Vercel dashboard
-- Deploy!
 
-### Environment Variables in Vercel
-
+3. **Environment Variables in Vercel**
 Add these in your Vercel project settings:
 
 ```env
-VITE_SUPABASE_URL=https://your-project.supabase.co
-VITE_SUPABASE_ANON_KEY=your-anon-key
-SUPABASE_SERVICE_ROLE_KEY=your-service-role-key
+EMAIL_USER=your-gmail@gmail.com
+EMAIL_PASS=your-app-password
+ADMIN_EMAIL=admin@example.com
 SENDGRID_API_KEY=SG.your-sendgrid-api-key
-SENDGRID_FROM_EMAIL=noreply@yourdomain.com
-SENDGRID_FROM_NAME=Tarot Reader 777
-JWT_SECRET=your-super-secret-random-string-min-32-chars
-PAYMENT_UPI_ID=your-upi-id@provider
-PAYMENT_QR_VALIDITY_HOURS=24
-VITE_APP_URL=https://your-app.vercel.app
+JWT_SECRET=your-super-secret-random-string
+NODE_ENV=production
 ```
 
-## 📊 Database Schema
+4. **Deploy!**
+Vercel will automatically deploy on push to main branch.
 
-The application uses the following main tables:
+## 📧 API Endpoints
 
-- **admins** - Admin user accounts
-- **clients** - Client information
-- **services** - Tarot reading services
-- **bookings** - Booking records
-- **availability** - Admin availability
-- **email_logs** - Email delivery logs
-- **settings** - Application settings
+### Contact
+- `POST /api/contact` - Contact form submission with email notifications
 
-See `supabase/schema.sql` for the complete schema.
+### Health Check
+- `GET /api/health` - API health status
 
-## 🔐 Authentication
+## � Email Service
 
-The application uses JWT-based authentication:
+The API uses Nodemailer with Gmail service:
+- Professional HTML email templates
+- Automatic fallback to Gmail if SendGrid fails
+- Error handling and logging
+- Environment variable validation
 
-1. **Admin Login** - Email/password with bcrypt hashing
-2. **Token Storage** - JWT stored in localStorage
-3. **Protected Routes** - Admin dashboard requires authentication
-4. **Auto-logout** - Token expiration handling
+## 🎨 Features Implemented
 
-## 💳 Payment Flow
+### ✅ Frontend
+- [x] Responsive design for all screen sizes
+- [x] Smooth animations and micro-interactions
+- [x] Contact form with validation
+- [x] Navigation with mobile menu
+- [x] Hero section with animated elements
+- [x] Services section with interactive cards
+- [x] How it works section with step animations
+- [x] Testimonials with hover effects
+- [x] Scroll-to-top button
+- [x] Professional typography and spacing
 
-1. **Client books** a service
-2. **QR code generated** with UPI payment details
-3. **Client pays** via UPI using the QR code
-4. **Admin verifies** payment with transaction ID
-5. **Payment confirmed** and booking status updated
-6. **Email notifications** sent to client
-
-## 📧 Email Templates
-
-The application includes beautiful email templates for:
-
-- **Booking Confirmation** - With QR code for payment
-- **Payment Verified** - Confirmation of successful payment
-- **Booking Reminder** - 2 hours before session
-
-All emails are responsive and branded.
-
-## 🎨 Customization
-
-### Branding
-
-Update these files to customize the app:
-
-- **Colors**: `tailwind.config.js`
-- **Logo**: Replace in components
-- **Text**: Update in page components
-- **Emails**: Modify in `api/services/email.ts`
-
-### Adding New Services
-
-1. Add to database via Supabase dashboard
-2. Or use the admin interface (if implemented)
-
-### Custom Domain
-
-1. Go to Vercel → Settings → Domains
-2. Add your custom domain
-3. Update DNS settings
-4. Update `VITE_APP_URL` environment variable
+### ✅ Backend
+- [x] Express.js server with ES modules
+- [x] Contact form processing
+- [x] Email notifications via Nodemailer
+- [x] CORS configuration
+- [x] Environment variable management
+- [x] Error handling and logging
+- [x] Vercel deployment configuration
 
 ## 🐛 Troubleshooting
 
 ### Common Issues
 
-1. **Supabase Connection Failed**
-   - Check `SUPABASE_URL` and keys
-   - Verify RLS policies
+1. **Email Not Sending**
+   - Verify Gmail App Password setup
+   - Check environment variables
+   - Ensure 2FA is enabled on Gmail
 
-2. **Email Not Sending**
-   - Verify SendGrid API key
-   - Check sender email verification
-   - Check SendGrid activity logs
+2. **Module Type Error**
+   - Added `"type": "module"` to package.json
+   - Using ES6 import/export syntax
 
-3. **QR Code Not Generating**
-   - Check `PAYMENT_UPI_ID` setting
-   - Verify QRCode package installation
-
-4. **Admin Login Not Working**
-   - Check admin exists in database
-   - Verify JWT_SECRET is set
-   - Check password hash
-
-## 📱 API Endpoints
-
-### Authentication
-- `POST /api/auth/login` - Admin login
-- `POST /api/auth/register` - Create admin
-
-### Bookings
-- `GET /api/bookings` - Get all bookings
-- `POST /api/bookings` - Create booking
-- `PUT /api/bookings` - Update booking
-
-### Payments
-- `GET /api/payments/verify` - Generate QR code
-- `POST /api/payments/verify` - Verify payment
+3. **CORS Issues**
+   - Check frontend URL in development
+   - Verify CORS configuration
 
 ## 🤝 Contributing
 
@@ -291,14 +230,7 @@ Update these files to customize the app:
 
 This project is licensed under the MIT License.
 
-## 🆘 Support
-
-If you need help:
-
-1. **Documentation**: Check this README
-2. **Issues**: Create an issue on GitHub
-3. **Email**: Contact the development team
-
 ---
 
 **🔮 Tarot Reader 777 - Guiding Your Spiritual Journey**
+"src": "/(.*)", "dest": "/frontend/$1" }

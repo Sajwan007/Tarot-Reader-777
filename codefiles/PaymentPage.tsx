@@ -5,6 +5,7 @@ import { paymentsAPI } from '../services/api';
 import toast from 'react-hot-toast';
 import { ShieldCheck, CreditCard, Smartphone, QrCode, CheckCircle } from 'lucide-react';
 import { motion } from 'framer-motion';
+
 export function PaymentPage() {
   const navigate = useNavigate();
   const location = useLocation();
@@ -13,7 +14,7 @@ export function PaymentPage() {
   const [booking, setBooking] = useState(location.state?.booking || {
     id: null,
     service: 'Love Tarot Reading',
-    price: 999,
+    price: 299,
     date: '2023-10-24',
     time: '10:00 AM',
     payment_qr_code: null
@@ -57,6 +58,7 @@ export function PaymentPage() {
       });
     }, 1500);
   };
+
   return (
     <div className="min-h-screen pt-24 pb-12 px-4 bg-cosmic-dark flex items-center justify-center">
       <motion.div
@@ -93,7 +95,11 @@ export function PaymentPage() {
             </div>
             <div className="flex justify-between py-3 border-b border-white/10">
               <span className="text-white/60">Duration</span>
-              <span className="text-white font-medium">45 Minutes</span>
+              <span className="text-white font-medium">10 Minutes</span>
+            </div>
+            <div className="flex justify-between py-3 border-b border-white/10">
+              <span className="text-white/60">Delivery Method</span>
+              <span className="text-white font-medium">Email</span>
             </div>
           </div>
 

@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { Button } from '../components/ui/Button';
 import toast from 'react-hot-toast';
 import { contactAPI } from '../lib/api';
@@ -26,38 +26,46 @@ const contactReasons = [
   },
   {
     id: 'love',
-    title: 'Love Reading',
+    title: 'Love Tarot Reading',
     icon: <Heart className="w-5 h-5" />,
-    description: 'Questions about love and relationship readings',
-    price: 1200
+    description: 'Discover insights about your romantic path and relationship dynamics',
+    price: 299
   },
   {
     id: 'career',
     title: 'Career Guidance',
     icon: <Briefcase className="w-5 h-5" />,
-    description: 'Questions about career and life path readings',
-    price: 1500
+    description: 'Navigate your professional journey and find your true calling',
+    price: 279
   },
   {
     id: 'yesno',
-    title: 'Quick Question',
+    title: 'Yes/No Reading',
     icon: <HelpCircle className="w-5 h-5" />,
-    description: 'Yes/No questions and quick guidance',
-    price: 500
+    description: 'Quick, direct answers to your most pressing questions',
+    price: 199,
+    duration: 5
   },
   {
     id: 'lifepath',
     title: 'Life Path Reading',
     icon: <Compass className="w-5 h-5" />,
-    description: 'Deep life path and spiritual guidance',
-    price: 2000
+    description: "Deep dive into your life's purpose and spiritual lessons",
+    price: 349
   },
   {
     id: 'custom',
     title: 'Custom Question',
     icon: <Star className="w-5 h-5" />,
-    description: 'Personalized tarot reading for specific questions',
-    price: 2500
+    description: 'Personalized reading focused on your specific situation',
+    price: 499
+  },
+  {
+    id: 'healing',
+    title: 'Remedy for Healing',
+    icon: <Star className="w-5 h-5" />,
+    description: 'Spiritual remedies and healing guidance to restore balance',
+    price: 349
   }
 ];
 
@@ -65,13 +73,14 @@ const contactMethods = [
   {
     id: 'email',
     label: 'Email',
-    desc: 'info@tarotreader777.com',
+    desc: 'scdcacademy@gmail.com',
     icon: <Mail className="w-5 h-5" />
   }
 ];
 
 export function ContactPage() {
   const navigate = useNavigate();
+  const location = useLocation();
   const [step, setStep] = useState(1);
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
@@ -79,11 +88,42 @@ export function ContactPage() {
     name: '',
     email: '',
     phone: '',
-    preferredContact: '',
+    preferredContact: 'email',
     message: '',
     selectedService: '',
     servicePrice: 0
   });
+
+  // Handle URL parameters for pre-selected service
+  useEffect(() => {
+    const searchParams = new URLSearchParams(location.search);
+    const serviceParam = searchParams.get('service');
+    const priceParam = searchParams.get('price');
+    
+    if (serviceParam) {
+      // Find matching service in contactReasons
+      const matchingService = contactReasons.find(reason => 
+        reason.title.toLowerCase().includes(serviceParam.toLowerCase()) ||
+        serviceParam.toLowerCase().includes(reason.title.toLowerCase())
+      );
+      
+      if (matchingService) {
+        setFormData(prev => ({
+          ...prev,
+          reason: matchingService.id,
+          selectedService: matchingService.title,
+          servicePrice: matchingService.price
+        }));
+      } else {
+        // If no exact match, use the provided service data
+        setFormData(prev => ({
+          ...prev,
+          selectedService: serviceParam,
+          servicePrice: priceParam ? parseInt(priceParam.replace(/[^\d]/g, '')) || 0 : 0
+        }));
+      }
+    }
+  }, [location.search]);
   
   const updateForm = (key: string, value: string) => {
     setFormData((prev) => ({
@@ -98,8 +138,6 @@ export function ContactPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-
-    console.log('Form data being submitted:', formData);
 
     try {
       // Submit to API
@@ -121,10 +159,10 @@ export function ContactPage() {
   };
   
   return (
-    <div className="min-h-screen pt-24 pb-12 px-4 bg-cosmic-dark bg-[url('https://www.transparenttextures.com/patterns/stardust.png')]">
+    <div className="min-h-screen pt-24 pb-12 px-4 sm:px-6 lg:px-8 bg-cosmic-dark bg-[url('https://www.transparenttextures.com/patterns/stardust.png')]">
       <div className="max-w-3xl mx-auto">
         {/* Progress Bar */}
-        <div className="mb-8">
+        <div className="mb-6 sm:mb-8">
           <div className="flex justify-between mb-2">
             {['Reason', 'Contact Info', 'Message'].map((label, idx) =>
               <span
@@ -145,7 +183,7 @@ export function ContactPage() {
           </div>
         </div>
 
-        <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-6 md:p-8 shadow-2xl">
+        <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-4 sm:p-6 md:p-8 shadow-2xl">
           <AnimatePresence mode="wait">
             {/* Step 1: Contact Reason */}
             {step === 1 && (
@@ -164,10 +202,10 @@ export function ContactPage() {
                     <button
                       key={reason.id}
                       onClick={() => {
-  updateForm('reason', reason.id);
-  updateForm('selectedService', reason.title);
-  updateForm('servicePrice', String(reason.price || 0));
-}}
+                        updateForm('reason', reason.id);
+                        updateForm('selectedService', reason.title);
+                        updateForm('servicePrice', String(reason.price || 0));
+                      }}
                       className={`flex items-center justify-between p-4 rounded-xl border transition-all ${
                         formData.reason === reason.id 
                           ? 'bg-gold/20 border-gold text-white' 
@@ -186,13 +224,23 @@ export function ContactPage() {
                           <div className="font-bold font-cinzel">{reason.title}</div>
                           <div className="text-sm opacity-70">{reason.description}</div>
                           {reason.price > 0 && (
-                            <div className="text-gold font-bold mt-1">₹{reason.price}</div>
+                            <>
+                              <div className="text-gold font-bold mt-1">₹{reason.price} • {reason.duration || 10} mins</div>
+                              {reason.title === 'Yes/No Reading' ? (
+                                <div className="text-xs opacity-50 text-gold">Additional charges may apply after 5 mins</div>
+                              ) : (
+                                <div className="text-xs opacity-50 text-gold">Additional charges may apply after 10 mins</div>
+                              )}
+                            </>
                           )}
                         </div>
                       </div>
                       <div className="flex items-center gap-2">
                         {reason.price > 0 && (
-                          <span className="text-gold text-sm font-bold">₹{reason.price}</span>
+                          <div className="text-right">
+                            <span className="text-gold text-sm font-bold">₹{reason.price}</span>
+                            <div className="text-xs opacity-50 text-gold">{reason.duration || 10} mins</div>
+                          </div>
                         )}
                         {formData.reason === reason.id && (
                           <Star className="text-gold" />
@@ -251,9 +299,10 @@ export function ContactPage() {
 
                 <div>
                   <label className="block text-sm text-gold mb-1">
-                    Phone (Optional)
+                    Phone
                   </label>
                   <input
+                    required
                     type="tel"
                     className="w-full bg-white/5 border border-white/20 rounded-lg p-3 text-white focus:border-gold outline-none"
                     value={formData.phone}
@@ -291,7 +340,7 @@ export function ContactPage() {
                   <Button variant="secondary" onClick={prevStep}>
                     Back
                   </Button>
-                  <Button onClick={nextStep} disabled={!formData.name || !formData.email}>
+                  <Button onClick={nextStep} disabled={!formData.name || !formData.email || !formData.phone}>
                     Next Step
                   </Button>
                 </div>
@@ -338,7 +387,7 @@ export function ContactPage() {
                     <Button type="button" variant="secondary" onClick={prevStep}>
                       Back
                     </Button>
-                    <Button type="submit" disabled={loading || !formData.name || !formData.email || !formData.reason || !formData.preferredContact || !formData.message}>
+                    <Button type="submit" disabled={loading || !formData.name || !formData.email || !formData.phone || !formData.reason || !formData.preferredContact || !formData.message}>
                       {loading ? (
                         <>
                           <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent mr-2"></div>
@@ -378,7 +427,7 @@ export function ContactPage() {
                 <Mail className="w-6 h-6 text-gold" />
               </div>
               <h4 className="font-cinzel font-bold text-white mb-2">Email Us</h4>
-              <p className="text-white/70 text-sm">info@tarotreader777.com</p>
+              <p className="text-white/70 text-sm">scdcacademy@gmail.com</p>
               <p className="text-white/50 text-xs mt-1">24/7 Response</p>
             </div>
           </div>

@@ -1,6 +1,6 @@
-import React from 'react';
-import { Moon, Instagram, Twitter, Facebook, Mail } from 'lucide-react';
+import { Moon, Instagram, Youtube, Mail } from 'lucide-react';
 import { Link } from 'react-router-dom';
+
 export function Footer() {
   return (
     <footer className="bg-cosmic-dark border-t border-white/10 pt-16 pb-8">
@@ -50,7 +50,7 @@ export function Footer() {
               </li>
               <li>
                 <Link
-                  to="/booking"
+                  to="/contact"
                   className="text-white/60 hover:text-gold transition-colors text-sm">
 
                   Book Reading
@@ -65,7 +65,7 @@ export function Footer() {
             <ul className="space-y-2">
               <li>
                 <Link
-                  to="/booking"
+                  to="/contact?service=Love%20Tarot%20Reading&price=299"
                   className="text-white/60 hover:text-gold transition-colors text-sm">
 
                   Love & Relationships
@@ -73,7 +73,7 @@ export function Footer() {
               </li>
               <li>
                 <Link
-                  to="/booking"
+                  to="/contact?service=Career%20Guidance&price=279"
                   className="text-white/60 hover:text-gold transition-colors text-sm">
 
                   Career & Finance
@@ -81,7 +81,7 @@ export function Footer() {
               </li>
               <li>
                 <Link
-                  to="/booking"
+                  to="/contact?service=Life%20Path%20Reading&price=349"
                   className="text-white/60 hover:text-gold transition-colors text-sm">
 
                   Life Path
@@ -89,10 +89,18 @@ export function Footer() {
               </li>
               <li>
                 <Link
-                  to="/booking"
+                  to="/contact?service=Yes/No%20Reading&price=199"
                   className="text-white/60 hover:text-gold transition-colors text-sm">
 
                   Yes/No Questions
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/contact?service=Remedy%20for%20Healing&price=349"
+                  className="text-white/60 hover:text-gold transition-colors text-sm">
+
+                  Remedy for Healing
                 </Link>
               </li>
             </ul>
@@ -103,38 +111,35 @@ export function Footer() {
             <h4 className="text-gold font-cinzel font-bold mb-4">Connect</h4>
             <div className="flex gap-4 mb-6">
               <a
-                href="#"
+                href="https://www.instagram.com/tarot_reader_777"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="text-white/60 hover:text-gold transition-colors">
 
                 <Instagram className="w-5 h-5" />
               </a>
               <a
-                href="#"
+                href="https://youtube.com/@tarotreade"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="text-white/60 hover:text-gold transition-colors">
 
-                <Twitter className="w-5 h-5" />
-              </a>
-              <a
-                href="#"
-                className="text-white/60 hover:text-gold transition-colors">
-
-                <Facebook className="w-5 h-5" />
+                <Youtube className="w-5 h-5" />
               </a>
             </div>
             <a
-              href="mailto:hello@mystictarot.com"
+              href="mailto:scdcacademy@gmail.com"
               className="flex items-center gap-2 text-white/60 hover:text-gold transition-colors text-sm">
 
               <Mail className="w-4 h-4" />
-              hello@mystictarot.com
+              scdcacademy@gmail.com
             </a>
           </div>
         </div>
 
         <div className="border-t border-white/5 pt-8 text-center">
           <p className="text-white/40 text-xs">
-            © {new Date().getFullYear()} Mystic Tarot. All rights reserved. For
-            entertainment purposes only.
+            {new Date().getFullYear()} | Mystic Tarot. All rights reserved.
           </p>
         </div>
       </div>

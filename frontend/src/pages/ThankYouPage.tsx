@@ -79,7 +79,7 @@ const ThankYouPage = () => {
             <h3 className="text-xl font-semibold text-white mb-4">Need Immediate Assistance?</h3>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <a 
-                href="mailto:info@tarotreader777.com" 
+                href="mailto:scdcacademy@gmail.com" 
                 className="flex items-center justify-center gap-2 px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white rounded-lg transition"
               >
                 <Mail className="w-4 h-4" />

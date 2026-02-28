@@ -21,59 +21,51 @@ const services = [
 {
   id: 'bebeced9-d4d8-41eb-8e05-f70e9be59cb9', // Love Tarot Reading UUID
   title: 'Love Tarot Reading',
-  price: 999,
-  duration: 45,
+  price: 299,
+  duration: 10,
   icon: <Heart className="w-5 h-5" />
 },
 {
   id: '03e6cb75-0ba3-4bf0-923e-422d12ec092a', // Career Guidance UUID
   title: 'Career Guidance',
-  price: 1299,
-  duration: 60,
+  price: 279,
+  duration: 10,
   icon: <Briefcase className="w-5 h-5" />
 },
 {
   id: '95394508-7f76-4249-8010-58d7b48368d7', // Yes/No Reading UUID
   title: 'Yes/No Reading',
-  price: 499,
-  duration: 30,
+  price: 199,
+  duration: 5,
   icon: <HelpCircle className="w-5 h-5" />
 },
 {
   id: '9c77bcbb-0add-4562-8a67-f0d2dc501db0', // Life Path Reading UUID
   title: 'Life Path Reading',
-  price: 1799,
-  duration: 90,
+  price: 349,
+  duration: 10,
   icon: <Compass className="w-5 h-5" />
 },
 {
   id: 'ecd0c639-8aa0-4ebd-908c-75fd21f54c52', // Custom Question UUID
   title: 'Custom Question',
-  price: 899,
-  duration: 45,
+  price: 499,
+  duration: 10,
+  icon: <Star className="w-5 h-5" />
+},
+{
+  id: 'a1b2c3d4-e5f6-4789-9abc-def123456789', // Remedy for Healing UUID
+  title: 'Remedy for Healing',
+  price: 349,
+  duration: 10,
   icon: <Star className="w-5 h-5" />
 }];
 
 const readingTypes = [
 {
-  id: 'live',
-  label: 'Live Video Call',
-  desc: 'Zoom/Google Meet'
-},
-{
-  id: 'recorded',
-  label: 'Recorded Video',
-  desc: 'Sent via Email'
-},
-{
-  id: 'chat',
-  label: 'Live Chat',
-  desc: 'WhatsApp/Telegram'
-},
-{
   id: 'email',
-  label: 'Detailed Email',
-  desc: 'Written Report'
+  label: 'Email',
+  desc: 'Detailed Email Report'
 }];
 
 const timeSlots = [
@@ -92,7 +84,7 @@ export function BookingPage() {
     service: '',
     date: '',
     time: '',
-    type: '',
+    type: 'email',
     name: '',
     email: '',
     phone: '',
@@ -226,7 +218,12 @@ export function BookingPage() {
                         </div>
                         <div className="text-left">
                           <div className="font-bold font-cinzel">{s.title}</div>
-                          <div className="text-sm opacity-70">₹{s.price}</div>
+                          <div className="text-sm opacity-70">₹{s.price} • {s.duration} mins</div>
+                          {s.title === 'Yes/No Reading' ? (
+                            <div className="text-xs opacity-50 text-gold">Additional charges may apply after 5 mins</div>
+                          ) : (
+                            <div className="text-xs opacity-50 text-gold">Additional charges may apply after 10 mins</div>
+                          )}
                         </div>
                       </div>
                       {formData.service === s.id &&
