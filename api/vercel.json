@@ -9,7 +9,7 @@
       "src": "../frontend/package.json",
       "use": "@vercel/static-build",
       "config": {
-        "outputDir": "build"
+        "outputDirectory": "dist"
       }
     }
   ],
@@ -20,13 +20,38 @@
     },
     {
       "src": "/(.*)",
-      "dest": "/public/index.html"
+      "dest": "/dist/index.html"
     }
   ],
   "env": {
     "EMAIL_USER": "@email_user",
-    "EMAIL_PASS": "@email_pass", 
+    "EMAIL_PASS": "@email_pass",
     "ADMIN_EMAIL": "@admin_email",
-    "SENDGRID_API_KEY": "@sendgrid_api_key"
-  }
+    "SENDGRID_API_KEY": "@sendgrid_api_key",
+    "JWT_SECRET": "@jwt_secret"
+  },
+  "functions": {
+    "server.js": {
+      "maxDuration": 10
+    }
+  },
+  "headers": [
+    {
+      "source": "/api/(.*)",
+      "headers": [
+        {
+          "key": "Access-Control-Allow-Origin",
+          "value": "*"
+        },
+        {
+          "key": "Access-Control-Allow-Methods",
+          "value": "GET, POST, PUT, DELETE, OPTIONS"
+        },
+        {
+          "key": "Access-Control-Allow-Headers",
+          "value": "Content-Type, Authorization"
+        }
+      ]
+    }
+  ]
 }
