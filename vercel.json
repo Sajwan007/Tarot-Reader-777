@@ -4,16 +4,13 @@
   "buildCommand": "cd frontend && npm run build",
   "outputDirectory": "frontend/dist",
   "rewrites": [
-    { "source": "/api/(.*)", "destination": "/api/$1" },
+    { "source": "/api/(.*)", "destination": "/api/server.js" },
     { "source": "/(.*)", "destination": "/index.html" }
   ],
   "functions": {
     "api/server.js": { "maxDuration": 10 },
     "api/contact.js": { "maxDuration": 10 },
-    "api/auth/login.js": { "maxDuration": 10 },
-    "api/auth/register.js": { "maxDuration": 10 },
-    "api/bookings.js": { "maxDuration": 10 },
-    "api/clients.js": { "maxDuration": 10 }
+    "api/auth/login.js": { "maxDuration": 10 }
   },
   "headers": [
     {
