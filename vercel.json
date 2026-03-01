@@ -9,8 +9,7 @@
   ],
   "functions": {
     "api/server.js": { "maxDuration": 10 },
-    "api/contact.js": { "maxDuration": 10 },
-    "api/auth/login.js": { "maxDuration": 10 }
+    "api/contact.js": { "maxDuration": 10 }
   },
   "headers": [
     {
