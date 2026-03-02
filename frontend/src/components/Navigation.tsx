@@ -111,6 +111,20 @@ export function Navigation() {
     path: '/contact'
   }];
 
+  const isActive = (path: string) => {
+    if (path === '/') {
+      return location.pathname === '/' && !location.hash;
+    }
+    if (path === '/contact') {
+      return location.pathname === '/contact';
+    }
+    if (path.startsWith('/#')) {
+      const section = path.replace('/#', '');
+      return location.pathname === '/' && location.hash === `#${section}`;
+    }
+    return location.pathname === path;
+  };
+
   return (
     <nav
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 overflow-x-clip ${
@@ -141,22 +155,39 @@ export function Navigation() {
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center gap-6 lg:gap-8">
             {navLinks.map((link) => {
+              const active = isActive(link.path);
+              const baseClasses =
+                'relative font-inter transition-colors text-xs sm:text-sm tracking-wide uppercase';
+              const activeClasses =
+                'text-gold';
+              const inactiveClasses =
+                'text-white/80 hover:text-gold';
+
               if (link.path.startsWith('/#')) {
                 return (
                   <button
                     key={link.name}
                     onClick={() => handleNavClick(link.path)}
-                    className="text-white/80 hover:text-gold font-inter transition-colors text-xs sm:text-sm tracking-wide uppercase bg-transparent border-none cursor-pointer">
-                    {link.name}
+                    className={`${baseClasses} bg-transparent border-none cursor-pointer ${active ? activeClasses : inactiveClasses}`}
+                  >
+                    <span>{link.name}</span>
+                    {active && (
+                      <span className="absolute left-0 right-0 -bottom-1 h-[2px] bg-gold rounded-full" />
+                    )}
                   </button>
                 );
               }
+
               return (
                 <Link
                   key={link.name}
                   to={link.path}
-                  className="text-white/80 hover:text-gold font-inter transition-colors text-xs sm:text-sm tracking-wide uppercase">
-                  {link.name}
+                  className={`${baseClasses} ${active ? activeClasses : inactiveClasses}`}
+                >
+                  <span>{link.name}</span>
+                  {active && (
+                    <span className="absolute left-0 right-0 -bottom-1 h-[2px] bg-gold rounded-full" />
+                  )}
                 </Link>
               );
             })}
@@ -189,30 +220,24 @@ export function Navigation() {
 
       {/* Mobile Menu */}
       <AnimatePresence>
-        {isMobileMenuOpen &&
-        <motion.div
-          initial={{
-            opacity: 0,
-            height: 0,
-            y: -20
-          }}
-          animate={{
-            opacity: 1,
-            height: 'auto',
-            y: 0
-          }}
-          exit={{
-            opacity: 0,
-            height: 0,
-            y: -20
-          }}
-          transition={{
-            duration: 0.3,
-            ease: "easeInOut"
-          }}
-          className="md:hidden bg-cosmic-purple/95 backdrop-blur-xl border-b border-white/10 overflow-hidden">
-
-            <div className="px-4 py-6 space-y-4 flex flex-col items-center">
+        {isMobileMenuOpen && (
+          <motion.div
+            className="fixed inset-0 z-40 md:hidden bg-black/60 backdrop-blur-sm"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            onClick={() => setIsMobileMenuOpen(false)}
+          >
+            <motion.div
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.25, ease: 'easeInOut' }}
+              className="absolute top-[64px] left-0 right-0 bg-cosmic-purple/95 backdrop-blur-xl border-b border-white/10 overflow-hidden rounded-b-2xl shadow-2xl"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="px-4 py-6 space-y-4 flex flex-col items-center">
               {navLinks.map((link, index) => {
                 if (link.path.startsWith('/#')) {
                   return (
@@ -248,21 +273,22 @@ export function Navigation() {
                   </motion.div>
                 );
               })}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.5 }}
-                className="w-full max-w-xs pt-4"
-              >
-                <Link to="/contact">
-                  <Button variant="primary" fullWidth className="hover:scale-105 transition-transform duration-200">
-                    Contact Us
-                  </Button>
-                </Link>
-              </motion.div>
-            </div>
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.5 }}
+                  className="w-full max-w-xs pt-4"
+                >
+                  <Link to="/contact">
+                    <Button variant="primary" fullWidth className="hover:scale-105 transition-transform duration-200">
+                      Contact Us
+                    </Button>
+                  </Link>
+                </motion.div>
+              </div>
+            </motion.div>
           </motion.div>
-        }
+        )}
       </AnimatePresence>
     </nav>
 

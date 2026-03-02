@@ -1,4 +1,6 @@
-export default function handler(req, res) {
+import { supabase } from './utils/supabaseClient.js';
+
+export default async function handler(req, res) {
   // Set CORS headers
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
@@ -8,76 +10,101 @@ export default function handler(req, res) {
     return res.status(200).end();
   }
 
-  // Demo data for clients
-  const demoClients = [
-    {
-      id: '1',
-      name: 'John Doe',
-      email: 'john@example.com',
-      phone: '9876543210',
-      totalBookings: 3,
-      totalSpent: 4500,
-      lastBooking: '2024-02-15',
-      createdAt: '2024-01-15T10:00:00Z'
-    },
-    {
-      id: '2',
-      name: 'Jane Smith',
-      email: 'jane@example.com',
-      phone: '9876543211',
-      totalBookings: 2,
-      totalSpent: 2400,
-      lastBooking: '2024-02-16',
-      createdAt: '2024-01-20T14:00:00Z'
-    },
-    {
-      id: '3',
-      name: 'Mike Johnson',
-      email: 'mike@example.com',
-      phone: '9876543212',
-      totalBookings: 1,
-      totalSpent: 1500,
-      lastBooking: '2024-02-10',
-      createdAt: '2024-02-01T09:00:00Z'
-    }
-  ];
+  if (!supabase) {
+    console.error('Supabase is not configured for clients handler');
+    return res.status(500).json({
+      success: false,
+      error: 'Database not configured. Please set SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY.',
+    });
+  }
 
-  if (req.method === 'GET') {
-    res.status(200).json({
-      success: true,
-      data: demoClients
-    });
-  } else if (req.method === 'POST') {
-    // Create new client
-    const newClient = {
-      id: String(demoClients.length + 1),
-      ...req.body,
-      totalBookings: 0,
-      totalSpent: 0,
-      createdAt: new Date().toISOString()
-    };
-    
-    res.status(201).json({
-      success: true,
-      data: newClient
-    });
-  } else if (req.method === 'PUT') {
-    // Update client
-    const clientId = req.query.id;
-    const updatedClient = { ...req.body, id: clientId };
-    
-    res.status(200).json({
-      success: true,
-      data: updatedClient
-    });
-  } else if (req.method === 'DELETE') {
-    // Delete client
-    res.status(200).json({
-      success: true,
-      message: 'Client deleted successfully'
-    });
-  } else {
+  try {
+    if (req.method === 'GET') {
+      const { data, error } = await supabase
+        .from('clients')
+        .select('*')
+        .order('created_at', { ascending: false });
+
+      if (error) {
+        console.error('Error fetching clients:', error);
+        return res.status(500).json({ success: false, error: 'Failed to load clients' });
+      }
+
+      return res.status(200).json({
+        success: true,
+        data: data || [],
+      });
+    }
+
+    if (req.method === 'POST') {
+      const payload = {
+        ...req.body,
+      };
+
+      const { data, error } = await supabase
+        .from('clients')
+        .insert(payload)
+        .select('*')
+        .single();
+
+      if (error) {
+        console.error('Error creating client:', error);
+        return res.status(500).json({ success: false, error: 'Failed to create client' });
+      }
+
+      return res.status(201).json({
+        success: true,
+        data,
+      });
+    }
+
+    if (req.method === 'PUT') {
+      const clientId = req.query.id;
+      if (!clientId) {
+        return res.status(400).json({ success: false, error: 'Missing client id' });
+      }
+
+      const { data, error } = await supabase
+        .from('clients')
+        .update(req.body)
+        .eq('id', clientId)
+        .select('*')
+        .single();
+
+      if (error) {
+        console.error('Error updating client:', error);
+        return res.status(500).json({ success: false, error: 'Failed to update client' });
+      }
+
+      return res.status(200).json({
+        success: true,
+        data,
+      });
+    }
+
+    if (req.method === 'DELETE') {
+      const clientId = req.query.id;
+      if (!clientId) {
+        return res.status(400).json({ success: false, error: 'Missing client id' });
+      }
+
+      const { error } = await supabase.from('clients').delete().eq('id', clientId);
+
+      if (error) {
+        console.error('Error deleting client:', error);
+        return res.status(500).json({ success: false, error: 'Failed to delete client' });
+      }
+
+      return res.status(200).json({
+        success: true,
+        message: 'Client deleted successfully',
+      });
+    }
+
     res.setHeader('Allow', ['GET', 'POST', 'PUT', 'DELETE']);
-    res.status(405).end(`Method ${req.method} Not Allowed`);
+    return res.status(405).end(`Method ${req.method} Not Allowed`);
+  } catch (err) {
+    console.error('Unexpected error in clients handler:', err);
+    return res.status(500).json({ success: false, error: 'Internal server error' });
   }
 }

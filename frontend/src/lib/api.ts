@@ -59,7 +59,7 @@ export const bookingsAPI = {
   },
   
   getStats: async () => {
-    const response = await api.get('/api/bookings/stats');
+    const response = await api.get('/api/bookings', { params: { stats: '1' } });
     return response;
   },
   

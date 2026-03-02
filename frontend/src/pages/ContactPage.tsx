@@ -83,6 +83,7 @@ export function ContactPage() {
   const location = useLocation();
   const [step, setStep] = useState(1);
   const [loading, setLoading] = useState(false);
+  const [errors, setErrors] = useState<Record<string, string>>({});
   const [formData, setFormData] = useState({
     reason: '',
     name: '',
@@ -134,9 +135,30 @@ export function ContactPage() {
   
   const nextStep = () => setStep((prev) => prev + 1);
   const prevStep = () => setStep((prev) => prev - 1);
+
+  const validate = () => {
+    const newErrors: Record<string, string> = {};
+
+    if (!formData.reason) newErrors.reason = 'Please choose what you need help with.';
+    if (!formData.name.trim()) newErrors.name = 'Name is required.';
+    if (!formData.email.trim()) {
+      newErrors.email = 'Email is required.';
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+      newErrors.email = 'Please enter a valid email address.';
+    }
+    if (!formData.phone.trim()) newErrors.phone = 'Phone number is required.';
+    if (!formData.message.trim()) newErrors.message = 'Please share a short message.';
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
   
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!validate()) {
+      toast.error('Please fix the highlighted fields.');
+      return;
+    }
     setLoading(true);
 
     try {
@@ -249,8 +271,23 @@ export function ContactPage() {
                     </button>
                   ))}
                 </div>
-                <div className="flex justify-end mt-8">
-                  <Button onClick={nextStep} disabled={!formData.reason}>
+                {errors.reason && (
+                  <p className="text-sm text-red-400 mt-1">{errors.reason}</p>
+                )}
+                <div className="flex justify-end mt-6">
+                  <Button
+                    onClick={() => {
+                      if (!formData.reason) {
+                        setErrors((prev) => ({
+                          ...prev,
+                          reason: 'Please choose what you need help with.',
+                        }));
+                        return;
+                      }
+                      setErrors((prev) => ({ ...prev, reason: '' }));
+                      nextStep();
+                    }}
+                  >
                     Next Step
                   </Button>
                 </div>
@@ -278,10 +315,15 @@ export function ContactPage() {
                     <input
                       required
                       type="text"
-                      className="w-full bg-white/5 border border-white/20 rounded-lg p-3 text-white focus:border-gold outline-none"
+                      className={`w-full bg-white/5 border rounded-lg p-3 text-white focus:outline-none ${
+                        errors.name ? 'border-red-400 focus:border-red-400' : 'border-white/20 focus:border-gold'
+                      }`}
                       value={formData.name}
                       onChange={(e) => updateForm('name', e.target.value)}
                     />
+                    {errors.name && (
+                      <p className="mt-1 text-xs text-red-400">{errors.name}</p>
+                    )}
                   </div>
                   <div>
                     <label className="block text-sm text-gold mb-1">
@@ -290,10 +332,15 @@ export function ContactPage() {
                     <input
                       required
                       type="email"
-                      className="w-full bg-white/5 border border-white/20 rounded-lg p-3 text-white focus:border-gold outline-none"
+                      className={`w-full bg-white/5 border rounded-lg p-3 text-white focus:outline-none ${
+                        errors.email ? 'border-red-400 focus:border-red-400' : 'border-white/20 focus:border-gold'
+                      }`}
                       value={formData.email}
                       onChange={(e) => updateForm('email', e.target.value)}
                     />
+                    {errors.email && (
+                      <p className="mt-1 text-xs text-red-400">{errors.email}</p>
+                    )}
                   </div>
                 </div>
 
@@ -304,10 +351,15 @@ export function ContactPage() {
                   <input
                     required
                     type="tel"
-                    className="w-full bg-white/5 border border-white/20 rounded-lg p-3 text-white focus:border-gold outline-none"
+                    className={`w-full bg-white/5 border rounded-lg p-3 text-white focus:outline-none ${
+                      errors.phone ? 'border-red-400 focus:border-red-400' : 'border-white/20 focus:border-gold'
+                    }`}
                     value={formData.phone}
                     onChange={(e) => updateForm('phone', e.target.value)}
                   />
+                  {errors.phone && (
+                    <p className="mt-1 text-xs text-red-400">{errors.phone}</p>
+                  )}
                 </div>
 
                 <div>
@@ -366,11 +418,16 @@ export function ContactPage() {
                     <textarea
                       required
                       rows={6}
-                      className="w-full bg-white/5 border border-white/20 rounded-lg p-3 text-white focus:border-gold outline-none resize-none"
+                      className={`w-full bg-white/5 border rounded-lg p-3 text-white focus:outline-none resize-none ${
+                        errors.message ? 'border-red-400 focus:border-red-400' : 'border-white/20 focus:border-gold'
+                      }`}
                       value={formData.message}
                       onChange={(e) => updateForm('message', e.target.value)}
                       placeholder="Share your question or what you'd like guidance on..."
                     />
+                    {errors.message && (
+                      <p className="mt-1 text-xs text-red-400">{errors.message}</p>
+                    )}
                   </div>
 
                   <div className="bg-gold/10 border border-gold/20 rounded-lg p-4">

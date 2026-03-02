@@ -1,4 +1,6 @@
-export default function handler(req, res) {
+import { supabase } from './utils/supabaseClient.js';
+
+export default async function handler(req, res) {
   // Set CORS headers
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
@@ -8,89 +10,126 @@ export default function handler(req, res) {
     return res.status(200).end();
   }
 
-  // Demo data for bookings
-  const demoBookings = [
-    {
-      id: '1',
-      customerName: 'John Doe',
-      customerEmail: 'john@example.com',
-      customerPhone: '9876543210',
-      service: 'Tarot Reading',
-      date: '2024-02-15',
-      time: '10:00 AM',
-      status: 'confirmed',
-      paymentStatus: 'paid',
-      amount: 1500,
-      createdAt: '2024-02-10T10:00:00Z'
-    },
-    {
-      id: '2',
-      customerName: 'Jane Smith',
-      customerEmail: 'jane@example.com',
-      customerPhone: '9876543211',
-      service: 'Love Reading',
-      date: '2024-02-16',
-      time: '2:00 PM',
-      status: 'pending',
-      paymentStatus: 'pending',
-      amount: 1200,
-      createdAt: '2024-02-11T14:00:00Z'
-    }
-  ];
+  if (!supabase) {
+    console.error('Supabase is not configured for bookings handler');
+    return res.status(500).json({
+      success: false,
+      error: 'Database not configured. Please set SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY.',
+    });
+  }
 
-  // Demo stats
-  const demoStats = {
-    totalBookings: demoBookings.length,
-    confirmed: demoBookings.filter(b => b.status === 'confirmed').length,
-    pending: demoBookings.filter(b => b.status === 'pending').length,
-    revenue: demoBookings.filter(b => b.paymentStatus === 'paid').reduce((sum, b) => sum + b.amount, 0)
-  };
+  try {
+    if (req.method === 'GET') {
+      // Stats mode: /api/bookings?stats=1
+      if (req.query.stats) {
+        const { data, error } = await supabase
+          .from('bookings')
+          .select('status,payment_status,price');
 
-  if (req.method === 'GET') {
-    if (req.query.stats) {
-      // Return stats
-      res.status(200).json({
+        if (error) {
+          console.error('Error fetching booking stats:', error);
+          return res.status(500).json({ success: false, error: 'Failed to load booking stats' });
+        }
+
+        const totalBookings = data.length;
+        const confirmed = data.filter((b) => b.status === 'confirmed').length;
+        const pending = data.filter((b) => b.status === 'pending').length;
+        const revenue = data
+          .filter((b) => b.payment_status === 'paid')
+          .reduce((sum, b) => sum + (b.price || 0), 0);
+
+        return res.status(200).json({
+          success: true,
+          data: { totalBookings, confirmed, pending, revenue },
+        });
+      }
+
+      // List bookings
+      const { data, error } = await supabase
+        .from('bookings')
+        .select('*')
+        .order('created_at', { ascending: false });
+
+      if (error) {
+        console.error('Error fetching bookings:', error);
+        return res.status(500).json({ success: false, error: 'Failed to load bookings' });
+      }
+
+      return res.status(200).json({
         success: true,
-        data: demoStats
-      });
-    } else {
-      // Return all bookings
-      res.status(200).json({
-        success: true,
-        data: demoBookings
+        data: data || [],
       });
     }
-  } else if (req.method === 'POST') {
-    // Create new booking
-    const newBooking = {
-      id: String(demoBookings.length + 1),
-      ...req.body,
-      status: 'pending',
-      paymentStatus: 'pending',
-      createdAt: new Date().toISOString()
-    };
-    
-    res.status(201).json({
-      success: true,
-      data: newBooking
-    });
-  } else if (req.method === 'PUT') {
-    // Update booking
-    const bookingId = req.query.id;
-    const updatedBooking = { ...req.body, id: bookingId };
-    
-    res.status(200).json({
-      success: true,
-      data: updatedBooking
-    });
-  } else if (req.method === 'DELETE') {
-    // Delete booking
-    res.status(200).json({
-      success: true,
-      message: 'Booking deleted successfully'
-    });
-  } else {
+
+    if (req.method === 'POST') {
+      const payload = {
+        ...req.body,
+      };
+
+      const { data, error } = await supabase
+        .from('bookings')
+        .insert(payload)
+        .select('*')
+        .single();
+
+      if (error) {
+        console.error('Error creating booking:', error);
+        return res.status(500).json({ success: false, error: 'Failed to create booking' });
+      }
+
+      return res.status(201).json({
+        success: true,
+        data,
+      });
+    }
+
+    if (req.method === 'PUT') {
+      const bookingId = req.query.id;
+      if (!bookingId) {
+        return res.status(400).json({ success: false, error: 'Missing booking id' });
+      }
+
+      const { data, error } = await supabase
+        .from('bookings')
+        .update(req.body)
+        .eq('id', bookingId)
+        .select('*')
+        .single();
+
+      if (error) {
+        console.error('Error updating booking:', error);
+        return res.status(500).json({ success: false, error: 'Failed to update booking' });
+      }
+
+      return res.status(200).json({
+        success: true,
+        data,
+      });
+    }
+
+    if (req.method === 'DELETE') {
+      const bookingId = req.query.id;
+      if (!bookingId) {
+        return res.status(400).json({ success: false, error: 'Missing booking id' });
+      }
+
+      const { error } = await supabase.from('bookings').delete().eq('id', bookingId);
+
+      if (error) {
+        console.error('Error deleting booking:', error);
+        return res.status(500).json({ success: false, error: 'Failed to delete booking' });
+      }
+
+      return res.status(200).json({
+        success: true,
+        message: 'Booking deleted successfully',
+      });
+    }
+
     res.setHeader('Allow', ['GET', 'POST', 'PUT', 'DELETE']);
-    res.status(405).end(`Method ${req.method} Not Allowed`);
+    return res.status(405).end(`Method ${req.method} Not Allowed`);
+  } catch (err) {
+    console.error('Unexpected error in bookings handler:', err);
+    return res.status(500).json({ success: false, error: 'Internal server error' });
   }
 }

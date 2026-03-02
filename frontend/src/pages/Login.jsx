@@ -103,10 +103,6 @@ const Login = () => {
               </>
             )}
           </button>
-          
-          <p className="text-center text-purple-300 text-sm mt-4">
-            Demo: admin@tarot777.com / admin123
-          </p>
         </form>
       </div>
     </div>
