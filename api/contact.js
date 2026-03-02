@@ -1,5 +1,6 @@
 import { sendContactNotification } from './utils/emailService.js';
 import { supabase } from './utils/supabaseClient.js';
+import { requireAdmin } from './utils/requireAdmin.js';
 
 // Basic in-memory rate limiting (per Lambda instance)
 const rateLimit = {};
@@ -16,6 +17,7 @@ export default async function handler(req, res) {
   }
 
   if (req.method === 'GET') {
+    if (!requireAdmin(req, res)) return;
     try {
       if (supabase) {
         const { data, error } = await supabase

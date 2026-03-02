@@ -1,4 +1,5 @@
 import { supabase } from './utils/supabaseClient.js';
+import { requireAdmin } from './utils/requireAdmin.js';
 
 export default async function handler(req, res) {
   // Set CORS headers
@@ -9,6 +10,8 @@ export default async function handler(req, res) {
   if (req.method === 'OPTIONS') {
     return res.status(200).end();
   }
+
+  if (!requireAdmin(req, res)) return;
 
   if (!supabase) {
     console.error('Supabase is not configured for clients handler');
